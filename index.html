@@ -6,31 +6,94 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-blue-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100">
 
-  <div class="bg-white p-8 rounded-2xl shadow-xl text-center w-full max-w-md">
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow flex justify-between items-center px-8 py-4">
+    
+    <div class="flex items-center space-x-2">
+      <div class="bg-blue-700 p-2 rounded-lg text-white">💧</div>
+      <div>
+        <h1 class="font-bold text-sm">Observatorio</h1>
+        <p class="text-xs text-gray-500">ciudadano de calidad del agua</p>
+      </div>
+    </div>
 
-    <h1 class="text-3xl font-bold mb-4">
-      Observatorio del Agua
-    </h1>
+    <div class="space-x-6 text-sm">
+      <a href="index.html" class="text-blue-600 font-semibold">Mapa</a>
+      <a href="reporte.html" class="text-gray-600 hover:text-blue-600">Reporte</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600">¿Cómo funciona?</a>
+    </div>
 
-    <p class="mb-6 text-gray-600">
-      Reporta y consulta problemas relacionados con el agua en tu comunidad.
-    </p>
-
-    <div class="space-y-3">
-      <a href="registro.html"
-         class="block bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-        Registrarse
+    <div class="space-x-2">
+      <a href="login.html">
+        <button class="px-4 py-1 border rounded-lg text-sm">Iniciar sesión</button>
       </a>
-
-      <a href="login.html"
-         class="block bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
-        Iniciar sesión
+      <a href="registro.html">
+        <button class="px-4 py-1 bg-blue-600 text-white rounded-lg text-sm">Registrarse</button>
       </a>
     </div>
 
-  </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-r from-blue-800 to-cyan-500 text-white px-10 py-16 flex justify-between items-center">
+
+    <div class="max-w-xl">
+      <h2 class="text-4xl font-bold mb-4">
+        Protege las fuentes de agua de tu comunidad
+      </h2>
+
+      <p class="mb-6 text-gray-200">
+        Reporta, documenta y visualiza en tiempo real los focos de contaminación hídrica en tu territorio.
+      </p>
+
+      <div class="space-x-4">
+        <a href="reporte.html">
+          <button class="bg-blue-600 px-5 py-2 rounded-lg">
+            Hacer un reporte
+          </button>
+        </a>
+
+        <a href="mapa.html">
+          <button class="bg-blue-400 px-5 py-2 rounded-lg">
+            Ver el mapa 
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid grid-cols-2 gap-4 text-center">
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">847</h3>
+        <p class="text-sm">Reportes activos</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">92%</h3>
+        <p class="text-sm">Validados</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">2.4k</h3>
+        <p class="text-sm">Ciudadanos</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">38</h3>
+        <p class="text-sm">Municipios</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MAPA SIMULADO -->
+  <section class="p-10">
+    <div class="bg-gray-300 rounded-2xl h-96 flex items-center justify-center">
+      <p class="text-gray-600">Mapa interactivo (simulado)</p>
+    </div>
+  </section>
 
 </body>
 </html>
