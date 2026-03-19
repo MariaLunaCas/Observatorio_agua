@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow flex justify-between items-center px-8 py-4">
+    
+    <a href="index.html" class="flex items-center space-x-2">
+      <div class="bg-blue-700 p-2 rounded-lg text-white">💧</div>
+      <h1 class="font-bold text-sm">Observatorio</h1>
+    </a>
+
+    <div class="space-x-4 text-sm">
+      <a href="mapa.html" class="text-blue-600 font-semibold">Mapa</a>
+      <a href="reporte.html" class="text-gray-600 hover:text-blue-600">Reporte</a>
+      <a href="perfil.html" class="text-gray-600 hover:text-blue-600">Perfil</a>
+      <a href="index.html" class="text-red-500">Cerrar sesión</a>
+    </div>
+
+  </nav>
+
+  <!-- TITULO -->
+  <div class="p-6">
+    <h2 class="text-2xl font-bold">Mapa de reportes</h2>
+    <p class="text-gray-500">Visualiza los reportes en tu zona</p>
+  </div>
+
+  <!-- MAPA -->
+  <div class="px-6">
+    <div id="map" class="h-96 rounded-2xl shadow"></div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE -->
+  <div class="fixed bottom-6 right-6">
+    <a href="reporte.html">
+      <button class="bg-blue-600 text-white text-2xl w-14 h-14 rounded-full shadow-lg hover:bg-blue-700">
+        +
+      </button>
+    </a>
+  </div>
+
+  <!-- SCRIPT MAPA -->
+  <script>
+    // Crear mapa centrado en Cali
+    const map = L.map('map').setView([3.4516, -76.5320], 13);
+
+    // Cargar mapa base
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // ===== MARCADORES DE EJEMPLO =====
+
+    // Marcador 1
+    const marker1 = L.marker([3.4516, -76.5320]).addTo(map);
+    marker1.bindPopup(`
+      <b>Contaminación de río</b><br>
+      Zona centro<br>
+      <a href="detalle.html" class="text-blue-600">Ver detalle</a>
+    `);
+
+    // Marcador 2
+    const marker2 = L.marker([3.4600, -76.5400]).addTo(map);
+    marker2.bindPopup(`
+      <b>Fuga de agua</b><br>
+      Barrio norte<br>
+      <a href="detalle.html" class="text-blue-600">Ver detalle</a>
+    `);
+
+    // Marcador 3
+    const marker3 = L.marker([3.4400, -76.5200]).addTo(map);
+    marker3.bindPopup(`
+      <b>Baja presión</b><br>
+      Zona sur<br>
+      <a href="detalle.html" class="text-blue-600">Ver detalle</a>
+    `);
+  </script>
+
+</body>
+</html>
+
+</body>
+</html>

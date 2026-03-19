@@ -10,6 +10,13 @@
 
   <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
 
+    <!-- VOLVER AL HOME -->
+    <div class="text-left mb-4">
+      <a href="index.html" class="text-blue-600 text-sm">
+        ← Volver 
+      </a>
+    </div>
+
     <!-- ICONO -->
     <div class="mb-4 flex justify-center">
       <div class="bg-blue-800 p-4 rounded-xl">
@@ -38,7 +45,17 @@
           class="w-full border p-2 rounded-lg">
       </div>
 
-      <button class="w-full bg-blue-800 text-white py-2 rounded-lg hover:bg-blue-900">
+      <!-- RECUPERAR CONTRASEÑA -->
+      <div class="text-right">
+        <a href="Recuperarcontraseña.html" class="text-sm text-blue-600">
+          ¿Olvidaste tu contraseña?
+        </a>
+      </div>
+
+      <!-- BOTON LOGIN -->
+      <button type="button"
+        onclick="window.location.href='index.html'"
+        class="w-full bg-blue-800 text-white py-2 rounded-lg hover:bg-blue-900">
         Iniciar sesión
       </button>
 

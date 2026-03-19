@@ -3,16 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Observatorio del Agua</title>
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
-<body class="bg-blue-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100">
 
-  <div class="bg-white p-8 rounded-2xl shadow-xl text-center w-full max-w-md">
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow flex justify-between items-center px-8 py-4">
+    
+    <div class="flex items-center space-x-2">
+      <div class="bg-blue-700 p-2 rounded-lg text-white">💧</div>
+      <div>
+        <h1 class="font-bold text-sm">Observatorio</h1>
+        <p class="text-xs text-gray-500">ciudadano de calidad del agua</p>
+      </div>
+    </div>
 
-    <h1 class="text-3xl font-bold mb-4">
-      Observatorio del Agua
-    </h1>
+    <div class="space-x-6 text-sm">
+      <a href="index.html" class="text-blue-600 font-semibold">Inicio</a>
+      <a href="reporte.html" class="text-gray-600 hover:text-blue-600">Reporte</a>
+      <a href="mapa.html" class="text-gray-600 hover:text-blue-600">Mapa</a>
+    </div>
 
     <p class="mb-6 text-gray-600">
       Reporta y consulta problemas relacionados con el agua en tu comunidad.
@@ -26,9 +43,84 @@
       <a href="login.html" class="block bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
         Iniciar sesión
       </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-r from-blue-800 to-cyan-500 text-white px-10 py-16 flex justify-between items-center">
+
+    <div class="max-w-xl">
+      <h2 class="text-4xl font-bold mb-4">
+        Protege las fuentes de agua de tu comunidad
+      </h2>
+
+      <p class="mb-6 text-gray-200">
+        Reporta, documenta y visualiza en tiempo real los focos de contaminación hídrica en tu territorio.
+      </p>
+
+      <div class="space-x-4">
+        <a href="reporte.html">
+          <button class="bg-blue-600 px-5 py-2 rounded-lg">
+            Hacer un reporte
+          </button>
+        </a>
+
+        <a href="mapa.html">
+          <button class="bg-blue-400 px-5 py-2 rounded-lg">
+            Ver el mapa 
+          </button>
+        </a>
+      </div>
     </div>
 
-  </div>
+    <!-- STATS -->
+    <div class="grid grid-cols-2 gap-4 text-center">
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">847</h3>
+        <p class="text-sm">Reportes activos</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">92%</h3>
+        <p class="text-sm">Validados</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">2.4k</h3>
+        <p class="text-sm">Ciudadanos</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">38</h3>
+        <p class="text-sm">Municipios</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MAPA REAL -->
+  <section class="p-10">
+    <div id="map" class="h-96 rounded-2xl shadow"></div>
+  </section>
+
+  <!-- SCRIPT DEL MAPA -->
+  <script>
+    // Crear mapa centrado en Cali
+    const map = L.map('map').setView([3.4516, -76.5320], 13);
+
+    // Cargar mapa base
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // Marcador de ejemplo
+    const marker = L.marker([3.4516, -76.5320]).addTo(map);
+
+    marker.bindPopup(`
+      <b>Contaminación de agua</b><br>
+      Zona centro<br>
+      <a href="detalle.html" class="text-blue-600">Ver detalle</a>
+    `);
+  </script>
 
 </body>
 </html>
