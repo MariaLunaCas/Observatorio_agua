@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Observatorio del Agua</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -90,10 +92,23 @@
 
   <!-- MAPA SIMULADO -->
   <section class="p-10">
-    <div class="bg-gray-300 rounded-2xl h-96 flex items-center justify-center">
-      <p class="text-gray-600">Mapa interactivo (simulado)</p>
-    </div>
+    <div id="map" class="h-96 rounded-2xl shadow"></div>
   </section>
+  <script>
+  const map = L.map('map').setView([3.4516, -76.5320], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  // Marcador
+  const marker = L.marker([3.4516, -76.5320]).addTo(map);
+
+  marker.bindPopup(`
+    <b>Reporte de agua</b><br>
+    <a href="detalle.html" class="text-blue-600">Ver detalle</a>
+  `);
+</script>
 
 </body>
 </html>
