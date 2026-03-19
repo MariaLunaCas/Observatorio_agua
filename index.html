@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Observatorio del Agua</title>
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
@@ -22,9 +26,9 @@
     </div>
 
     <div class="space-x-6 text-sm">
-      <a href="index.html" class="text-blue-600 font-semibold">Mapa</a>
+      <a href="index.html" class="text-blue-600 font-semibold">Inicio</a>
       <a href="reporte.html" class="text-gray-600 hover:text-blue-600">Reporte</a>
-      <a href="#" class="text-gray-600 hover:text-blue-600">¿Cómo funciona?</a>
+      <a href="mapa.html" class="text-gray-600 hover:text-blue-600">Mapa</a>
     </div>
 
     <div class="space-x-2">
@@ -90,25 +94,30 @@
 
   </section>
 
-  <!-- MAPA SIMULADO -->
+  <!-- MAPA REAL -->
   <section class="p-10">
     <div id="map" class="h-96 rounded-2xl shadow"></div>
   </section>
+
+  <!-- SCRIPT DEL MAPA -->
   <script>
-  const map = L.map('map').setView([3.4516, -76.5320], 13);
+    // Crear mapa centrado en Cali
+    const map = L.map('map').setView([3.4516, -76.5320], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
-  }).addTo(map);
+    // Cargar mapa base
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
 
-  // Marcador
-  const marker = L.marker([3.4516, -76.5320]).addTo(map);
+    // Marcador de ejemplo
+    const marker = L.marker([3.4516, -76.5320]).addTo(map);
 
-  marker.bindPopup(`
-    <b>Reporte de agua</b><br>
-    <a href="detalle.html" class="text-blue-600">Ver detalle</a>
-  `);
-</script>
+    marker.bindPopup(`
+      <b>Contaminación de agua</b><br>
+      Zona centro<br>
+      <a href="detalle.html" class="text-blue-600">Ver detalle</a>
+    `);
+  </script>
 
 </body>
 </html>
