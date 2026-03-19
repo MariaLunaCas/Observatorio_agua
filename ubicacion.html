@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-2xl">
+
+        <div class="flex items-center justify-between px-10 py-6 mb-6">
+
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-500 font-bold text-sm">
+                    1
+                </div>
+                <span class="text-gray-400 font-medium text-sm">Descripción</span>
+            </div>
+
+            <div class="flex-1 h-px bg-gray-300 mx-3"></div>
+
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-500 font-bold text-sm">
+                    2
+                </div>
+                <span class="text-gray-400 font-medium text-sm">Clasificación</span>
+            </div>
+
+            <div class="flex-1 h-px bg-gray-300 mx-3"></div>
+
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm">
+                    3
+                </div>
+                <span class="text-blue-600 font-semibold text-sm">Ubicación</span>
+            </div>
+
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full">
+
+            <h1 class="text-3xl font-bold mb-1 text-center">¿Donde ocurre?</h1>
+            <p class="text-gray-400 text-center text-sm mb-6">
+                Usa tu ubicación actual o seleccione el mapa
+            </p>
+            <div class="flex justify-center mb-5">
+                <button class="bg-green-700 hover:bg-green-800 text-white font-semibold px-8 py-3 rounded-lg flex items-center gap-2 transition-colors">
+                    <span>📍</span> Usar mi ubicación actual
+                </button>
+            </div>
+
+            <div class="relative rounded-xl overflow-hidden mb-4" style="height: 210px; background: linear-gradient(135deg, #c8dde0 0%, #b8d4c8 40%, #c4dcc8 70%, #d0e4d0 100%);">
+
+                <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)"/>
+                </svg>
+
+                <div class="absolute" style="left: 50%; top: 55%; transform: translate(-50%, -50%);">
+                    <div style="width: 80px; height: 20px; background: rgba(80,120,140,0.35); border-radius: 50%; filter: blur(4px);"></div>
+                </div>
+
+                <div class="absolute" style="left: 50%; top: 45%; transform: translate(-50%, -100%);">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background: #e53935;">
+                            <div class="w-4 h-4 rounded-full bg-white"></div>
+                        </div>
+                        <div style="width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 14px solid #e53935; margin-top: -2px;"></div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-3 right-3">
+                    <span class="bg-white text-gray-600 text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm">
+                        Toca para ajustar
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="flex justify-center mb-4">
+                <span class="flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-4 py-1.5 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                    6.2345°N, -75.5678°O · Precisión: ±8m
+                </span>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm text-gray-500 mb-1">Dirección aproximada (opcional)</label>
+                <input type="text" value="Carrera 45 #23B, Zona Industrial Norte"
+                    class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700">
+            </div>
+
+            <!-- BOTONES -->
+            <div class="flex gap-4">
+                <a href="descripcion.html" class="w-1/2 text-center bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 rounded-lg">
+                    Anterior
+                </a>
+                </a>
+                <a href="evidencia.html"
+                class="w-1/2 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                    Terminar  
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

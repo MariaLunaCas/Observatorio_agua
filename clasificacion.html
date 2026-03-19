@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-2xl">
+
+        <!-- STEPBAR -->
+        <div class="bg-gray-200 rounded-xl px-10 py-6 mb-8">
+            <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
+                        1
+                    </div>
+                    <span class="text-gray-600 font-semibold">Descripción</span>
+                </div>
+
+                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
+                        2
+                    </div>
+                    <span class="text-blue-600 font-semibold">Clasificación</span>
+                </div>
+
+                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
+                        3
+                    </div>
+                    <span class="text-gray-600">Ubicación</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TARJETA PRINCIPAL -->
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full">
+
+            <h1 class="text-3xl font-bold mb-2 text-center">¿Qué tipo de contaminación?</h1>
+            <p class="text-gray-500 text-center mb-6">
+                Selecciona el tipo de contaminación que observaste que mejor lo describa.
+            </p>
+
+            <div class="space-y-4">
+
+                <!-- TIPOS DE CONTAMINACIÓN -->
+                <div>
+                    <h2 class="text-sm font-semibold mb-1">Tipo de contaminación *</h2>
+                    <div class="space-y-2">
+
+                        <label class="block cursor-pointer">
+                            <input type="checkbox" name="contaminacion" class="peer hidden">
+                            <div class="flex justify-between items-center border rounded-xl p-4
+                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
+                                <div>
+                                    <p class="font-medium">🗑️ Residuos sólidos</p>
+                                    <p class="text-sm text-gray-400">Basura, escombros</p>
+                                </div>
+                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
+                            </div>
+                        </label>
+
+                        <label class="block cursor-pointer">
+                            <input type="checkbox" name="contaminacion" class="peer hidden">
+                            <div class="flex justify-between items-center border rounded-xl p-4
+                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
+                                <div>
+                                    <p class="font-medium">💧 Aguas negras</p>
+                                    <p class="text-sm text-gray-400">Aguas residuales</p>
+                                </div>
+                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
+                            </div>
+                        </label>
+
+                        <label class="block cursor-pointer">
+                            <input type="checkbox" name="contaminacion" class="peer hidden">
+                            <div class="flex justify-between items-center border rounded-xl p-4
+                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
+                                <div>
+                                    <p class="font-medium">🏭 Químico industrial</p>
+                                    <p class="text-sm text-gray-400">Sustancias tóxicas</p>
+                                </div>
+                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
+                            </div>
+                        </label>
+
+                        <label class="block cursor-pointer">
+                            <input type="checkbox" name="contaminacion" class="peer hidden">
+                            <div class="flex justify-between items-center border rounded-xl p-4
+                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
+                                <div>
+                                    <p class="font-medium">⛰️ Erosión</p>
+                                    <p class="text-sm text-gray-400">Deslizamientos</p>
+                                </div>
+                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- URGENCIA -->
+                <div>
+                    <h2 class="text-sm font-semibold mb-1">Nivel de urgencia *</h2>
+
+                    <div class="flex gap-2">
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="urgencia" class="peer hidden">
+                            <div class="w-full h-10 flex items-center justify-center rounded
+                                        bg-green-500 text-white font-bold
+                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
+                                1
+                            </div>
+                        </label>
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="urgencia" class="peer hidden">
+                            <div class="w-full h-10 flex items-center justify-center rounded
+                                        bg-yellow-400 text-white font-bold
+                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
+                                2
+                            </div>
+                        </label>
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="urgencia" class="peer hidden">
+                            <div class="w-full h-10 flex items-center justify-center rounded
+                                        bg-orange-500 text-white font-bold
+                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
+                                3
+                            </div>
+                        </label>
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="urgencia" class="peer hidden">
+                            <div class="w-full h-10 flex items-center justify-center rounded
+                                        bg-red-500 text-white font-bold
+                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
+                                4
+                            </div>
+                        </label>
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="urgencia" class="peer hidden">
+                            <div class="w-full h-10 flex items-center justify-center rounded
+                                        bg-red-700 text-white font-bold
+                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
+                                5
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Leve</span>
+                        <span>Crítico</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex justify-between mt-6 gap-4">
+                <a href="descripcion.html" class="w-1/2 text-center bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 rounded-lg">
+                    Anterior
+                </a>
+                <a href="ubicacion.html" class="w-1/2 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg">
+                    Siguiente
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

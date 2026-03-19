@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descripción</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-2xl">
+        
+        <div class="bg-gray-200 rounded-xl px-10 py-6 mb-8">
+            <div class="flex items-center justify-between">
+                
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
+                        1
+                    </div>
+                    <span class="text-blue-600 font-semibold">Descripción</span>
+                </div>
+                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
+                        2
+                    </div>
+                    <span class="text-gray-600">Clasificación</span>
+                </div>
+
+                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
+                        3
+                    </div>
+                    <span class="text-gray-600">Ubicación</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full">
+            
+            <h1 class="text-3xl font-bold mb-2 text-center">¿Qué observaste?</h1>
+            <p class="text-gray-500 text-center mb-6">
+                Describe lo que encontraste con el mayor detalle posible.
+            </p>
+
+            <div class="space-y-4">
+                
+                <div>
+                    <h2 class="text-sm font-semibold mb-1">Título del reporte</h2>
+                    <input type="text" placeholder="Vertimiento de quebrada..."
+                        class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-semibold mb-1">Descripción</h2>
+                    <textarea placeholder="Describe el problema en detalle..."
+                        class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        rows="4"></textarea>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-semibold mb-1">Fuente hídrica afectada *</h2>
+                    <input type="text" placeholder="Quebrada La Chorrera..."
+                        class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+
+            </div>
+
+            <div class="flex justify-between mt-6 gap-4">
+                <button class="w-1/2 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 rounded-lg">
+                    Cancelar
+                </button>
+                <button class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg">
+                    <a href="clasificacion.html" class="block w-full h-full flex items-center justify-center">Siguiente </a>
+                </button>
+            </div>
+
+        </div>
+        
+    </div>
+    
+</body>
+</html>
