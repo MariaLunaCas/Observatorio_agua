@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reportes por validar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen bg-gray-50 flex flex-col">
+
+  <!-- NAVBAR -->
+  <nav class="bg-white border-b border-gray-100 shadow-sm px-10 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">💧</div>
+      <div>
+        <p class="text-sm font-bold text-blue-700">Observatorio</p>
+        <p class="text-xs text-gray-400">ciudadano de calidad del agua</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex items-center gap-1">
+      <button class="bg-blue-600 text-white text-sm px-5 py-2 rounded-full font-semibold">Por validar</button>
+      <button class="text-gray-500 text-sm px-5 py-2 rounded-full hover:bg-gray-100">Mis validaciones</button>
+      <button class="text-gray-500 text-sm px-5 py-2 rounded-full hover:bg-gray-100">Mapa</button>
+    </div>
+
+    <!-- Avatar -->
+    <div class="w-9 h-9 rounded-full bg-blue-800 flex items-center justify-center text-white text-xs font-bold">JV</div>
+  </nav>
+
+  <!-- CONTENIDO -->
+  <div class="flex-1 px-16 py-10 overflow-y-auto">
+
+    <!-- Título y filtros -->
+    <div class="flex items-center justify-between mb-2">
+      <h1 class="text-2xl font-bold text-gray-800">Reportes por validar</h1>
+      <div class="flex gap-2">
+        <button class="border border-gray-300 text-gray-600 text-xs px-4 py-1.5 rounded-full hover:bg-gray-100 font-medium">Urgencia ≥ 3</button>
+        <button class="border border-gray-300 text-gray-600 text-xs px-4 py-1.5 rounded-full hover:bg-gray-100 font-medium">Todos</button>
+      </div>
+    </div>
+    <p class="text-sm text-gray-400 mb-8">Ordenados por carácter de urgencia · 18 pendientes</p>
+
+    <!-- Lista de reportes -->
+    <div class="space-y-4 max-w-3xl">
+
+      <!-- Reporte 1 -->
+      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-red-400">
+        <div class="flex items-center gap-5">
+          <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl shadow-sm">☣️</div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">5</span>
+              <p class="text-sm font-semibold text-gray-800">Derrame de sustancias químicas — Río Aburrá</p>
+            </div>
+            <p class="text-xs text-gray-400">Hace 4 horas · María González · 5 fotos</p>
+          </div>
+        </div>
+        <a href="validar-reporte-5.html">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
+        </a>
+      </div>
+
+      <!-- Reporte 2 -->
+      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-orange-400">
+        <div class="flex items-center gap-5">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl shadow-sm">🏭</div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-orange-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">4</span>
+              <p class="text-sm font-semibold text-gray-800">Vertimiento industrial en quebrada La Perla</p>
+            </div>
+            <p class="text-xs text-gray-400">Hace 2 días · Carlos R. · 3 fotos</p>
+          </div>
+        </div>
+        <a href="validar-reporte-4.html">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
+        </a>
+      </div>
+
+      <!-- Reporte 3 -->
+      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-yellow-400">
+        <div class="flex items-center gap-5">
+          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl shadow-sm">🌿</div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">3</span>
+              <p class="text-sm font-semibold text-gray-800">Aguas residuales sin tratar — Vereda El Retiro</p>
+            </div>
+            <p class="text-xs text-gray-400">Hace 3 días · Ana S. · 2 fotos</p>
+          </div>
+        </div>
+        <a href="validar-reporte-3.html">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
+        </a>
+      </div>
+
+      <!-- Reporte 4 -->
+      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-yellow-300">
+        <div class="flex items-center gap-5">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl shadow-sm">🐟</div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-400 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">2</span>
+              <p class="text-sm font-semibold text-gray-800">Mortandad de peces — Embalse El Peñol</p>
+            </div>
+            <p class="text-xs text-gray-400">Hace 5 días · Luis M. · 6 fotos</p>
+          </div>
+        </div>
+        <a href="validar-reporte-2.html">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
+        </a>
+      </div>
+
+      <!-- Reporte 5 -->
+      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-blue-300">
+        <div class="flex items-center gap-5">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl shadow-sm">🪣</div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-blue-400 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">1</span>
+              <p class="text-sm font-semibold text-gray-800">Basuras en orilla — Quebrada La Iguaná</p>
+            </div>
+            <p class="text-xs text-gray-400">Hace 1 semana · Pedro V. · 4 fotos</p>
+          </div>
+        </div>
+        <a href="validar-reporte-1.html">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
