@@ -2,116 +2,138 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Perfil</title>
+  <title>Mi Perfil</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
 
-  <!-- HEADER -->
-  <div class="bg-white border-b-2 border-blue-600 flex justify-between items-center px-6 py-4">
+  <div class="bg-white w-full h-full flex flex-col">
 
-    <div class="flex items-center gap-3">
-      <a href="mapa.html" class="text-xl">⬅</a>
-      <h1 class="font-semibold">Mi perfil</h1>
+    <!-- ENCABEZADO -->
+    <div class="flex items-center justify-between px-10 py-5 border-b border-gray-100 shadow-sm">
+      <div class="flex items-center gap-3 text-gray-500 text-sm cursor-pointer hover:text-blue-600">
+        <span class="text-xl">←</span>
+        <span class="font-semibold text-gray-700 text-base">Mi perfil</span>
+      </div>
+      <button class="border-2 border-blue-600 text-blue-600 text-sm px-5 py-2 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition">
+        Editar perfil
+      </button>
     </div>
 
-    <button class="border border-blue-600 text-blue-600 px-4 py-1 rounded-lg text-sm hover:bg-blue-50">
-      Editar Perfil
-    </button>
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="flex flex-1 overflow-hidden">
 
-  </div>
+      <!-- PANEL IZQUIERDO -->
+      <div class="w-72 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col items-center justify-center py-12 px-8 gap-6">
 
-  <!-- CONTENIDO -->
-  <div class="max-w-4xl mx-auto p-6">
-
-    <!-- INFO USUARIO -->
-    <div class="flex justify-between items-center">
-
-      <div class="flex items-center gap-4">
-
-        <!-- AVATAR -->
-        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-green-400 flex items-center justify-center text-white text-xl font-bold">
+        <!-- Avatar -->
+        <div class="w-24 h-24 rounded-full bg-teal-400 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
           MG
         </div>
 
-        <!-- DATOS -->
-        <div>
-          <h2 class="text-xl font-semibold">María González</h2>
-          <p class="text-sm text-gray-500">Ciudadana activa · desde enero 2025</p>
-          <p class="text-sm text-gray-400">Fundación Río Limpio</p>
+        <div class="text-center">
+          <h2 class="text-xl font-bold">María González</h2>
+          <p class="text-blue-200 text-sm mt-1">Ciudadana activa</p>
+          <p class="text-blue-300 text-xs mt-1">desde enero 2025</p>
+          <p class="text-blue-200 text-xs mt-1">Fundación Río Limpio</p>
+        </div>
+
+        <!-- Separador -->
+        <div class="w-full border-t border-blue-600"></div>
+
+        <!-- Estadísticas -->
+        <div class="flex gap-8 text-center w-full justify-center">
+          <div>
+            <p class="text-4xl font-bold text-white">12</p>
+            <p class="text-xs text-blue-300 mt-1">Reportes</p>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-teal-300">9</p>
+            <p class="text-xs text-blue-300 mt-1">Validados</p>
+          </div>
+        </div>
+
+        <!-- Separador -->
+        <div class="w-full border-t border-blue-600"></div>
+
+        <!-- Info extra -->
+        <div class="w-full space-y-3 text-sm">
+          <div class="flex items-center gap-3 text-blue-200">
+            <span>📍</span>
+            <span>Medellín, Antioquia</span>
+          </div>
+          <div class="flex items-center gap-3 text-blue-200">
+            <span>📧</span>
+            <span>m.gonzalez@gmail.com</span>
+          </div>
+          <div class="flex items-center gap-3 text-blue-200">
+            <span>🏢</span>
+            <span>Fundación Río Limpio</span>
+          </div>
         </div>
 
       </div>
 
-      <!-- STATS -->
-      <div class="flex gap-10 text-center">
+      <!-- PANEL DERECHO -->
+      <div class="flex-1 px-12 py-10 overflow-y-auto bg-gray-50">
 
-        <div>
-          <h3 class="text-blue-600 text-2xl font-bold">12</h3>
-          <p class="text-sm text-gray-500">reportes</p>
+        <h3 class="text-lg font-bold text-gray-700 mb-6">Mis reportes recientes</h3>
+
+        <div class="space-y-4">
+
+          <!-- Reporte 1 -->
+          <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-5">
+              <div class="w-12 h-12 rounded-xl bg-amber-700 shadow"></div>
+              <div>
+                <p class="text-sm font-semibold text-gray-700">Vertimiento industrial – Qda. La Perla</p>
+                <p class="text-xs text-gray-400 mt-0.5">hace 1 día · Urgencia 4</p>
+              </div>
+            </div>
+            <span class="text-xs bg-green-100 text-green-600 font-bold px-4 py-1.5 rounded-full">✓ Validado</span>
+          </div>
+
+          <!-- Reporte 2 -->
+          <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-5">
+              <div class="w-12 h-12 rounded-xl bg-green-700 shadow"></div>
+              <div>
+                <p class="text-sm font-semibold text-gray-700">Acumulación residuos – Río Medellín</p>
+                <p class="text-xs text-gray-400 mt-0.5">hace 1 semana · Urgencia 2</p>
+              </div>
+            </div>
+            <span class="text-xs bg-purple-100 text-purple-600 font-bold px-4 py-1.5 rounded-full">⏳ En atención</span>
+          </div>
+
+          <!-- Reporte 3 -->
+          <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-5">
+              <div class="w-12 h-12 rounded-xl bg-purple-700 shadow"></div>
+              <div>
+                <p class="text-sm font-semibold text-gray-700">Aguas negras sin tratar – Vereda El Retiro</p>
+                <p class="text-xs text-gray-400 mt-0.5">hace 3 semanas · Urgencia 3</p>
+              </div>
+            </div>
+            <span class="text-xs bg-yellow-100 text-yellow-600 font-bold px-4 py-1.5 rounded-full">⏺ Pendiente</span>
+          </div>
+
+          <!-- Reporte 4 (extra para que se vea más completo) -->
+          <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center gap-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-500 shadow"></div>
+              <div>
+                <p class="text-sm font-semibold text-gray-700">Derrame químico – Quebrada La Iguaná</p>
+                <p class="text-xs text-gray-400 mt-0.5">hace 1 mes · Urgencia 5</p>
+              </div>
+            </div>
+            <span class="text-xs bg-red-100 text-red-500 font-bold px-4 py-1.5 rounded-full">🚨 Urgente</span>
+          </div>
+
         </div>
-
-        <div>
-          <h3 class="text-green-600 text-2xl font-bold">9</h3>
-          <p class="text-sm text-gray-500">Validados</p>
-        </div>
-
       </div>
 
     </div>
-
-    <hr class="my-6">
-
-    <!-- REPORTES -->
-    <h3 class="text-gray-700 font-semibold mb-4">Mis reportes recientes</h3>
-
-    <div class="space-y-4">
-
-      <!-- REPORTE 1 -->
-      <div class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 bg-yellow-800 rounded"></div>
-          <div>
-            <p class="text-sm font-medium">Vertimiento industrial – Qda. La Perla</p>
-            <p class="text-xs text-gray-400">hace 2 días · Urgencia 4</p>
-          </div>
-        </div>
-        <span class="bg-green-200 text-green-700 px-3 py-1 rounded-full text-xs">
-          Validado
-        </span>
-      </div>
-
-      <!-- REPORTE 2 -->
-      <div class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 bg-green-700 rounded"></div>
-          <div>
-            <p class="text-sm font-medium">Acumulación residuos – Río Medellín</p>
-            <p class="text-xs text-gray-400">hace 1 semana · Urgencia 2</p>
-          </div>
-        </div>
-        <span class="bg-blue-200 text-blue-700 px-3 py-1 rounded-full text-xs">
-          En atención
-        </span>
-      </div>
-
-      <!-- REPORTE 3 -->
-      <div class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 bg-purple-700 rounded"></div>
-          <div>
-            <p class="text-sm font-medium">Aguas negras sin tratar – Vereda El Retiro</p>
-            <p class="text-xs text-gray-400">hace 3 semanas · Urgencia 3</p>
-          </div>
-        </div>
-        <span class="bg-yellow-200 text-yellow-700 px-3 py-1 rounded-full text-xs">
-          Pendiente
-        </span>
-      </div>
-
-    </div>
-
   </div>
 
 </body>
