@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Observatorio del Agua</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+ <nav class="bg-white shadow flex justify-between items-center px-7 py-4">
+  
+  <!-- Logo -->
+  <div class="flex items-center space-x-2">
+    <div class="bg-blue-700 p-2 rounded-lg text-white">💧</div>
+    <div>
+      <h1 class="font-bold text-sm">Observatorio</h1>
+      <p class="text-xs text-gray-500">ciudadano de calidad del agua</p>
+    </div>
+  </div>
+
+  <!-- Menú -->
+  <div class="space-x-6 text-sm">
+    <a href="index.html" class="text-blue-600 font-semibold">Inicio</a>
+    <a href="descripcion.html" class="text-gray-600 hover:text-blue-600">Reporte</a>
+    <a href="mapa.html" class="text-gray-600 hover:text-blue-600">Mapa</a>
+    <a href="validar-reporte-1.html" class="text-gray-600 hover:text-blue-600">Validar reporte</a>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex items-center gap-3">
+    <a href="perfil.html">
+      <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+        Mi perfil
+      </button>
+    </a>
+    <a href="index.html">
+    <button class="border-2 border-red-600 text-red-600 text-sm px-4 py-2 rounded-xl font-semibold hover:bg-red-600 hover:text-white transition">
+      Cerrar sesión
+    </button>
+    </a>
+  </div>
+
+</nav>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-r from-blue-800 to-cyan-500 text-white px-10 py-16 flex justify-between items-center">
+
+    <div class="max-w-xl">
+      <h2 class="text-4xl font-bold mb-4">
+        Protege las fuentes de agua de tu comunidad
+      </h2>
+
+      <p class="mb-6 text-gray-200">
+        Reporta, documenta y visualiza en tiempo real los focos de contaminación hídrica.
+      </p>
+
+      <div class="space-x-4">
+        <a href="descripcion.html">
+          <button class="bg-blue-600 px-5 py-2 rounded-lg">
+            Hacer un reporte
+          </button>
+        </a>
+
+        <a href="mapa.html">
+          <button class="bg-blue-400 px-5 py-2 rounded-lg">
+            Ver el mapa 
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid grid-cols-2 gap-4 text-center">
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">847</h3>
+        <p class="text-sm">Reportes activos</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">92%</h3>
+        <p class="text-sm">Validados</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">2.4k</h3>
+        <p class="text-sm">Ciudadanos</p>
+      </div>
+
+      <div class="bg-white/20 p-4 rounded-lg">
+        <h3 class="text-2xl font-bold">38</h3>
+        <p class="text-sm">Municipios</p>
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="p-10">
+    <div class="relative rounded-2xl overflow-hidden shadow" style="height: 400px; background: linear-gradient(135deg, #c8dde0 0%, #b8d4c8 40%, #c4dcc8 70%, #d0e4d0 100%);">
+
+
+      <svg class="absolute inset-0 w-full h-full">
+        <defs>
+          <pattern id="grid" width="40" height="40">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+      </svg>
+
+      <!-- MARCADOR -->
+      <a href="detalle.html" class="absolute" style="left: 50%; top: 45%; transform: translate(-50%, -100%);">
+        <div class="flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center bg-red-500">
+            <div class="w-4 h-4 rounded-full bg-white"></div>
+          </div>
+          <div class="w-0 h-0 border-l-8 border-r-8 border-t-[14px] border-transparent border-t-red-500 -mt-1"></div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>
