@@ -3,13 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Observatorio del Agua</title>
-
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -51,7 +45,7 @@
       </h2>
 
       <p class="mb-6 text-gray-200">
-        Reporta, documenta y visualiza en tiempo real los focos de contaminación hídrica en tu territorio.
+        Reporta, documenta y visualiza en tiempo real los focos de contaminación hídrica.
       </p>
 
       <div class="space-x-4">
@@ -94,30 +88,32 @@
 
   </section>
 
-  <!-- MAPA REAL -->
+  <!-- MAPA BONITO -->
   <section class="p-10">
-    <div id="map" class="h-96 rounded-2xl shadow"></div>
+    <div class="relative rounded-2xl overflow-hidden shadow" style="height: 400px; background: linear-gradient(135deg, #c8dde0 0%, #b8d4c8 40%, #c4dcc8 70%, #d0e4d0 100%);">
+
+      <!-- GRID -->
+      <svg class="absolute inset-0 w-full h-full">
+        <defs>
+          <pattern id="grid" width="40" height="40">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+      </svg>
+
+      <!-- MARCADOR -->
+      <a href="detalle.html" class="absolute" style="left: 50%; top: 45%; transform: translate(-50%, -100%);">
+        <div class="flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center bg-red-500">
+            <div class="w-4 h-4 rounded-full bg-white"></div>
+          </div>
+          <div class="w-0 h-0 border-l-8 border-r-8 border-t-[14px] border-transparent border-t-red-500 -mt-1"></div>
+        </div>
+      </a>
+
+    </div>
   </section>
-
-  <!-- SCRIPT DEL MAPA -->
-  <script>
-    // Crear mapa centrado en Cali
-    const map = L.map('map').setView([3.4516, -76.5320], 13);
-
-    // Cargar mapa base
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
-
-    // Marcador de ejemplo
-    const marker = L.marker([3.4516, -76.5320]).addTo(map);
-
-    marker.bindPopup(`
-      <b>Contaminación de agua</b><br>
-      Zona centro<br>
-      <a href="detalle.html" class="text-blue-600">Ver detalle</a>
-    `);
-  </script>
 
 </body>
 </html>
