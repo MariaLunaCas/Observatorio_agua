@@ -10,6 +10,9 @@ async function bootstrap() {
     forbidNonWhitelisted: true, // Lanza un error si se envían propiedades no definidas en el DTO
     transform: true, // Transforma los payloads a los tipos definidos en los DTOs
   })); // Habilita la validación global de DTO
+
+  // Habilitar CORS con configuracion permisiva (solo para desarrollo)
+  app.enableCors();
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
