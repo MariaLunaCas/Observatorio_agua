@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { configurationMongo } from './configuration/configuration-mongo'; // Asegúrate de que la ruta sea correcta
 import { UsersModule } from './users/users.module';
 import { AppService } from './app.service';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AppService } from './app.service';
       inject: [ConfigService],
     }),
     UsersModule,
+    ReportsModule,
   ],
   providers: [AppService],
 })
