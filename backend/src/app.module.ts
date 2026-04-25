@@ -1,26 +1,30 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { configurationMongo } from './configuration/configuration-mongo'; // Correcto
+import { configurationMongo } from './configuration/configuration-mongo'; // Asegúrate de que la ruta sea correcta
+import { UsersModule } from './users/users.module';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configurationMongo], // Cargando configuración de MongoDB
-      envFilePath: `.env`,        // Carga el archivo .env
-      isGlobal: true,             // Las variables de entorno están disponibles globalmente
+      envFilePath: `.env`, // Carga el archivo .env
+      isGlobal: true, // Las variables de entorno están disponibles globalmente
     }),
+    // Configuración de Mongoose para conectarse a MongoDB usando la URI desde las variables de entorno
+    //utilizando el metodo de mongooseModule.forRootAsync de manera asincrona para obtener la URI de MongoDB desde el ConfigService
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
-        // Agregar el console.log aquí para verificar la URI de MongoDB
-        console.log('MONGODB_URI:', configService.get<string>('mongo.MONGODB_URI'));
-
+        const mongodbUri = configService.get<string>('mongo.MONGODB_URI');
         return {
-          uri: configService.get<string>('mongo.MONGODB_URI'), // Asegúrate de que se obtiene correctamente la URI
+          uri: mongodbUri,
         };
       },
       inject: [ConfigService],
     }),
+    UsersModule,
   ],
+  providers: [AppService],
 })
 export class AppModule {}
