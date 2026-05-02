@@ -2,10 +2,18 @@
 import { IsString, MaxLength, IsEmail  } from "class-validator"
 
 export class CreateUserDto {
+<<<<<<< Updated upstream
   @IsString()
   @MaxLength(25)
   name: string;
 
+=======
+
+  @IsString()
+  @MaxLength(25)
+  name: string;
+
+>>>>>>> Stashed changes
   @IsEmail()
   email: string;
 
@@ -14,4 +22,8 @@ export class CreateUserDto {
 
   @IsString()
   role: string;
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
