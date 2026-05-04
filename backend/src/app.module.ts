@@ -5,6 +5,7 @@ import { configurationMongo } from './configuration/configuration-mongo'; // Ase
 import { UsersModule } from './users/users.module';
 import { AppService } from './app.service';
 import { ReportsModule } from './reports/reports.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ReportsModule } from './reports/reports.module';
       load: [configurationMongo], // Cargando configuración de MongoDB
       envFilePath: `.env`, // Carga el archivo .env
       isGlobal: true, // Las variables de entorno están disponibles globalmente
+      
     }),
     // Configuración de Mongoose para conectarse a MongoDB usando la URI desde las variables de entorno
     //utilizando el metodo de mongooseModule.forRootAsync de manera asincrona para obtener la URI de MongoDB desde el ConfigService
@@ -26,6 +28,7 @@ import { ReportsModule } from './reports/reports.module';
     }),
     UsersModule,
     ReportsModule,
+    AuthModule,
   ],
   providers: [AppService],
 })

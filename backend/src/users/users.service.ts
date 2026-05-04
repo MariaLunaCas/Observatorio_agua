@@ -4,6 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
+import { UserDocument } from './schema/user.schema';
 
 //define las operaciones de CRUD
 
@@ -11,27 +13,32 @@ import { InjectModel } from '@nestjs/mongoose';
 export class UsersService {
 
   constructor (
-    @InjectModel(User.name) private userModel: Model<User> 
+    @InjectModel(User.name) private userModel: Model<UserDocument> 
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const createdUser = new this.userModel(createUserDto)
+    const hash = await bcrypt.hash(createUserDto.password, 10);
+    const createdUser = new this.userModel({ ...createUserDto, password: hash, role: createUserDto.role || 'user'});
     return createdUser.save(); 
   }
 
+  async findByEmail(email: string) {
+  return this.userModel.findOne({ email });
+  }
+
   async findAll() {
-    return `This action returns all users`;
+  return this.userModel.find().exec();
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} user`;
+  return this.userModel.findById(id).exec();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
   }
 
   async remove(id: string) {
-    return `This action removes a #${id} user`;
+  return this.userModel.findByIdAndDelete(id).exec();
   }
 }
