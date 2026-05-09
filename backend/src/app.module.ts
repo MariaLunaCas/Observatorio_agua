@@ -13,7 +13,6 @@ import { AuthModule } from './auth/auth.module';
       load: [configurationMongo], // Cargando configuración de MongoDB
       envFilePath: `.env`, // Carga el archivo .env
       isGlobal: true, // Las variables de entorno están disponibles globalmente
-      
     }),
     // Configuración de Mongoose para conectarse a MongoDB usando la URI desde las variables de entorno
     //utilizando el metodo de mongooseModule.forRootAsync de manera asincrona para obtener la URI de MongoDB desde el ConfigService

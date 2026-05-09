@@ -16,7 +16,13 @@ async function bootstrap() {
   app.use(express.urlencoded({ extended: true })); // Habilita el parsing de URL-encoded en las solicitudes
 
   // Habilitar CORS con configuracion permisiva (solo para desarrollo)
-  app.enableCors();
-  await app.listen(process.env.PORT ?? 3000);
+  app.enableCors({
+    origin: ['http://localhost:5000', 'http://127.0.0.1:5000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+  });
+  await app.listen(5000);
+   console.log('🚀 Backend corriendo en http://localhost:5000');
 }
 bootstrap();
+  
