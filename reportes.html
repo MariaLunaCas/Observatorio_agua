@@ -64,10 +64,26 @@
 
   <script>
     const API_URL = "http://localhost:5000/api";
-    const fallbackReports = [
-      { _id: "demo-1", title: "Derrame químico - Río Aburrá", contaminationType: "Químico", address: "Bello, Antioquia", urgency: 5, status: "pending" },
-      { _id: "demo-2", title: "Basuras en quebrada", contaminationType: "Residuos", address: "Medellín", urgency: 3, status: "pending" }
-    ];
+    const statusLabel = {
+      pending: "Pendiente",
+      validated: "Validado",
+      rejected: "Rechazado",
+    };
+
+    const statusClass = {
+      pending: "bg-yellow-100 text-yellow-800",
+      validated: "bg-green-100 text-green-800",
+      rejected: "bg-gray-100 text-gray-700",
+    };
+
+    function renderEmptyState(message) {
+      const list = document.getElementById("reports-list");
+      list.innerHTML = `
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-gray-600">
+          ${message}
+        </div>
+      `;
+    }
 
     async function loadReports() {
       const params = new URLSearchParams();
@@ -85,9 +101,9 @@
         });
         if (!response.ok) throw new Error("No se pudieron cargar reportes.");
         const reports = await response.json();
-        renderReports(reports.length ? reports : fallbackReports);
+        renderReports(reports);
       } catch {
-        renderReports(fallbackReports);
+        renderEmptyState("No se pudieron cargar los reportes. Revisa la conexión con el backend.");
       }
     }
 
@@ -96,9 +112,15 @@
       list.innerHTML = "";
       document.getElementById("count-status").textContent = `${reports.length} reporte(s) encontrados`;
 
+      if (!reports.length) {
+        renderEmptyState("No hay reportes que coincidan con este filtro.");
+        return;
+      }
+
       reports
         .sort((a, b) => (b.urgency || 1) - (a.urgency || 1))
         .forEach((report) => {
+          const normalizedStatus = (report.status || "pending").toLowerCase();
           const card = document.createElement("article");
           card.className = "bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4";
           card.innerHTML = `
@@ -107,11 +129,14 @@
                 <span class="bg-blue-700 text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">${report.urgency || 1}</span>
                 <h2 class="text-base font-bold text-gray-800">${report.title || "Reporte sin título"}</h2>
               </div>
-              <p class="text-sm text-gray-600">${report.contaminationType || "Sin tipo"} · ${report.address || "Sin ubicación"} · ${report.status || "pending"}</p>
+              <p class="text-sm text-gray-600">${report.contaminationType || "Sin tipo"} · ${report.address || "Sin ubicación"}</p>
+              <span class="inline-flex mt-2 px-2.5 py-1 rounded-full text-xs font-semibold ${statusClass[normalizedStatus] || statusClass.pending}">
+                ${statusLabel[normalizedStatus] || normalizedStatus}
+              </span>
             </div>
             <div class="flex flex-wrap gap-2">
               <a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold hover:no-underline" href="reporte-detalle.html?id=${report._id}">Detalle</a>
-              <button class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold" data-validate="${report._id}">Validar</button>
+              <button class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold" data-validate="${report._id}" ${normalizedStatus === 'validated' ? 'disabled' : ''}>Validar</button>
               <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg font-semibold" data-delete="${report._id}">Eliminar</button>
             </div>
           `;
@@ -128,7 +153,7 @@
             "Authorization": `Bearer ${token}` },
             body: JSON.stringify({ status: "validated" })
           });
-          loadReports();
+          await loadReports();
         });
       });
 
@@ -141,7 +166,7 @@
             method: "DELETE",
             headers: { "Authorization": `Bearer ${token}` }
           });
-          loadReports();
+          await loadReports();
         });
       });
     }

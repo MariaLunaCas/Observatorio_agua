@@ -23,10 +23,9 @@
       <ul class="flex space-x-6 text-sm">
         <li><a href="home_admin.html" class="text-blue-700 font-semibold" aria-current="page">Dashboard</a></li>
         <li><a href="reportes.html" class="text-gray-600 hover:text-blue-700">Reportes</a></li>
-        <li><a href="admin-users.html" class="text-gray-600 hover:text-blue-700">Usuarios</a></li>
         <li><a href="admin-alertas.html" class="text-gray-600 hover:text-blue-700">Alertas</a></li>
       </ul>
-      <a href="index.html" id="logout-link" class="border-2 border-red-600 text-red-700 text-sm px-4 py-2 rounded-xl font-semibold hover:bg-red-600 hover:text-white hover:no-underline transition">Cerrar sesión</a>
+      <a href="login.html" id="logout-link" class="border-2 border-red-600 text-red-700 text-sm px-4 py-2 rounded-xl font-semibold hover:bg-red-600 hover:text-white hover:no-underline transition">Cerrar sesión</a>
     </nav>
   </header>
 
@@ -37,7 +36,7 @@
         <p class="text-blue-100 max-w-2xl">Consulta métricas reales de reportes, usuarios ciudadanos y validación de información ambiental.</p>
         <div class="flex flex-wrap gap-4 mt-6">
           <a href="reportes.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg hover:no-underline">Gestionar reportes</a>
-          <a href="admin-users.html" class="bg-white text-blue-800 font-semibold px-5 py-3 rounded-lg hover:no-underline">Gestionar usuarios</a>
+          <a id="users-cta" href="admin-users.html" class="bg-white text-blue-800 font-semibold px-5 py-3 rounded-lg hover:no-underline">Gestionar usuarios</a>
           <a href="admin-alertas.html" class="bg-white text-blue-800 font-semibold px-5 py-3 rounded-lg hover:no-underline">Configurar alertas</a>
         </div>
       </div>
@@ -84,6 +83,20 @@
 
   <script>
     const API_URL = "http://localhost:5000/api";
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = currentUser.role === "admin";
+
+    if (!isAdmin) {
+      const usersLink = document.getElementById("users-cta");
+      if (usersLink) {
+        usersLink.href = "reportes.html";
+        usersLink.textContent = "Revisar reportes";
+      }
+      const navUsers = document.querySelector('a[href="admin-users.html"]');
+      if (navUsers) {
+        navUsers.remove();
+      }
+    }
 
     document.getElementById("logout-link").addEventListener("click", () => {
       localStorage.removeItem("token");

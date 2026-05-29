@@ -49,8 +49,9 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   googleCallback(@Req() req: GoogleRequest, @Res() res: Response) {
     const tokenData = this.authService.generateToken(req.user);
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
 
-    res.redirect(`http://127.0.0.1:5500/home_loggeado.html?token=${tokenData.access_token}`);
+    res.redirect(`${frontendUrl}/home_loggeado.html?token=${tokenData.access_token}`);
   }
 
   /**

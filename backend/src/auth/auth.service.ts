@@ -68,7 +68,7 @@ export class AuthService {
       );
     }
 
-    if (user.status === 'pending') {
+    if (user.status === 'pending' && user.role !== 'validator' && user.role !== 'admin') {
       throw new UnauthorizedException(
         'La cuenta esta pendiente de aprobacion por un validador',
       );

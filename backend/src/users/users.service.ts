@@ -53,6 +53,15 @@ export class UsersService {
       update.email = updateUserDto.email.trim().toLowerCase();
     }
 
+    if (updateUserDto.role) {
+      const normalizedRole = updateUserDto.role.trim().toLowerCase();
+      update.role = normalizedRole;
+      update.requestedRole = normalizedRole;
+      update.status = normalizedRole === 'validator' || normalizedRole === 'admin'
+        ? 'active'
+        : 'active';
+    }
+
     return this.userModel
       .findByIdAndUpdate(id, update, {
         returnDocument: 'after',

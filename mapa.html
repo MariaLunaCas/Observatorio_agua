@@ -14,17 +14,34 @@
 <body class="bg-gray-100 min-h-screen flex flex-col">
   <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
+  <script>
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdminUser = currentUser.role === "admin" || currentUser.role === "validator";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const homeLink = document.getElementById("home-link");
+      const reportLink = document.getElementById("report-link");
+      const profileLink = document.getElementById("profile-link");
+      const createButton = document.getElementById("create-link");
+
+      if (homeLink) homeLink.href = isAdminUser ? "home_admin.html" : "index.html";
+      if (reportLink) reportLink.href = isAdminUser ? "reportes.html" : "descripcion.html";
+      if (profileLink) profileLink.href = isAdminUser ? "home_admin.html" : "perfil.html";
+      if (createButton) createButton.href = isAdminUser ? "reportes.html" : "descripcion.html";
+    });
+  </script>
+
   <header>
     <nav class="bg-white shadow flex justify-between items-center px-8 py-4" aria-label="Navegación principal">
-      <a href="index.html" class="flex items-center space-x-2" aria-label="Observatorio del Agua, ir a inicio">
+      <a id="home-link" href="index.html" class="flex items-center space-x-2" aria-label="Observatorio del Agua, ir a inicio">
         <div class="bg-blue-700 p-2 rounded-lg text-white" aria-hidden="true">💧</div>
         <span class="font-bold text-sm">Observatorio</span>
       </a>
       <ul class="flex space-x-4 text-sm">
         <li><a href="mapa.html" class="text-blue-700 font-semibold" aria-current="page">Mapa</a></li>
-        <li><a href="descripcion.html" class="text-gray-600 hover:text-blue-700">Reporte</a></li>
-        <li><a href="perfil.html" class="text-gray-600 hover:text-blue-700">Perfil</a></li>
-        <li><a href="index.html" class="text-red-700 hover:underline" id="logout-link">Cerrar sesión</a></li>
+        <li><a id="report-link" href="descripcion.html" class="text-gray-600 hover:text-blue-700">Reporte</a></li>
+        <li><a id="profile-link" href="perfil.html" class="text-gray-600 hover:text-blue-700">Perfil</a></li>
+        <li><a href="login.html" class="text-red-700 hover:underline" id="logout-link">Cerrar sesión</a></li>
       </ul>
     </nav>
   </header>
@@ -67,7 +84,7 @@
     </section>
   </main>
 
-  <a href="descripcion.html" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white text-3xl w-14 h-14 rounded-full shadow-lg flex items-center justify-center font-bold hover:no-underline focus:ring-4 focus:ring-blue-600 focus:outline-none" aria-label="Hacer un nuevo reporte">
+  <a id="create-link" href="descripcion.html" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white text-3xl w-14 h-14 rounded-full shadow-lg flex items-center justify-center font-bold hover:no-underline focus:ring-4 focus:ring-blue-600 focus:outline-none" aria-label="Hacer un nuevo reporte">
     +
   </a>
 

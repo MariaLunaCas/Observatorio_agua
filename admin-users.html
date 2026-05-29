@@ -23,6 +23,7 @@
   </header>
 
   <main id="main" class="max-w-5xl mx-auto p-8">
+    <div id="access-warning" class="hidden mb-6 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-900"></div>
     <h1 class="text-2xl font-bold text-gray-900 mb-2">Gestión de usuarios</h1>
     <p id="status" class="text-sm text-gray-600 mb-6" role="status" aria-live="polite">Cargando usuarios...</p>
     <div class="bg-white rounded-xl shadow border border-gray-200 overflow-x-auto">
@@ -42,8 +43,21 @@
 
   <script>
     const API_URL = "http://localhost:5000/api";
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = currentUser.role === "admin";
+
+    if (!isAdmin) {
+      const warning = document.getElementById("access-warning");
+      warning.textContent = "Solo los administradores pueden gestionar usuarios. Este panel está deshabilitado para validadores.";
+      warning.classList.remove("hidden");
+      document.getElementById("status").textContent = "Acceso restringido";
+      document.querySelector("table").innerHTML = "<tbody><tr><td class='p-4 text-gray-600'>Sin permisos para ver esta sección.</td></tr></tbody>";
+    }
 
     async function loadUsers() {
+      if (!isAdmin) {
+        return;
+      }
       const status = document.getElementById("status");
       try {
         const response = await fetch(`${API_URL}/users`);
@@ -81,7 +95,11 @@
           await fetch(`${API_URL}/users/${select.dataset.role}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ role: select.value })
+            body: JSON.stringify({
+              role: select.value,
+              requestedRole: select.value,
+              status: 'active'
+            })
           });
           loadUsers();
         });

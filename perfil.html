@@ -12,7 +12,7 @@
   <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
   <header class="bg-white border-b border-gray-100 shadow-sm flex items-center justify-between px-10 py-5">
-    <a href="home_loggeado.html" class="font-semibold text-gray-700 text-lg hover:text-blue-700 transition">← Mi perfil</a>
+    <a href="home_loggeado.html" id="back-link" class="font-semibold text-gray-700 text-lg hover:text-blue-700 transition">← Mi perfil</a>
     <a href="mapa.html" class="border-2 border-blue-700 text-blue-700 text-sm px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 hover:text-white transition">Mapa</a>
   </header>
 
@@ -77,6 +77,12 @@
     const API_URL = "http://localhost:5000/api";
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const userEmail = user.email || "";
+    const backLink = document.getElementById("back-link");
+
+    if (user.role === "admin" || user.role === "validator") {
+      backLink.href = "home_admin.html";
+      backLink.textContent = "← Panel admin";
+    }
 
     document.getElementById("user-name").textContent = user.name || user.email || "Usuario";
     document.getElementById("user-email").textContent = userEmail;

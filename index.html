@@ -10,6 +10,26 @@
 </head>
 
 <body class="bg-gray-100">
+  <script>
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdminUser = currentUser.role === "admin" || currentUser.role === "validator";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const navReportLink = document.getElementById("nav-report-link");
+      const navMapLink = document.getElementById("nav-map-link");
+      const primaryReportLink = document.getElementById("primary-report-link");
+      const primaryMapLink = document.getElementById("primary-map-link");
+      const loginCta = document.getElementById("login-cta");
+      const registerCta = document.getElementById("register-cta");
+
+      if (navReportLink) navReportLink.href = isAdminUser ? "reportes.html" : "login.html";
+      if (navMapLink) navMapLink.href = isAdminUser ? "mapa.html" : "login.html";
+      if (primaryReportLink) primaryReportLink.href = isAdminUser ? "home_admin.html" : "login.html";
+      if (primaryMapLink) primaryMapLink.href = isAdminUser ? "mapa.html" : "login.html";
+      if (loginCta) loginCta.href = isAdminUser ? "home_admin.html" : "login.html";
+      if (registerCta) registerCta.href = isAdminUser ? "home_admin.html" : "registro.html";
+    });
+  </script>
 
   <!-- Skip Link - Salta al contenido principal -->
   <a href="#main" class="skip-link">Saltar al contenido principal</a>
@@ -27,15 +47,15 @@
 
     <ul class="space-x-6 text-sm flex">
       <li><a href="index.html" class="text-blue-700 font-semibold" aria-current="page">Inicio</a></li>
-      <li><a href="login.html" class="text-gray-600 hover:text-blue-700">Reporte</a></li>
-      <li><a href="login.html" class="text-gray-600 hover:text-blue-700">Mapa</a></li>
+      <li><a id="nav-report-link" href="login.html" class="text-gray-600 hover:text-blue-700">Reporte</a></li>
+      <li><a id="nav-map-link" href="login.html" class="text-gray-600 hover:text-blue-700">Mapa</a></li>
     </ul>
 
     <div class="space-x-2">
-      <a href="login.html">
+      <a id="login-cta" href="login.html">
         <button class="px-4 py-1 border rounded-lg text-sm">Iniciar sesión</button>
       </a>
-      <a href="registro.html">
+      <a id="register-cta" href="registro.html">
         <button class="px-4 py-1 bg-blue-600 text-white rounded-lg text-sm">Registrarse</button>
       </a>
     </div>
@@ -56,13 +76,13 @@
       </p>
 
       <div class="space-x-4">
-        <a href="login.html">
+        <a id="primary-report-link" href="login.html">
           <button class="bg-blue-600 px-5 py-2 rounded-lg">
             Hacer un reporte
           </button>
         </a>
 
-        <a href="login.html">
+        <a id="primary-map-link" href="login.html">
           <button class="bg-blue-600 px-5 py-2 rounded-lg">
             Ver el mapa 
           </button>
@@ -95,11 +115,20 @@
    </section>
    <script>
     const API_URL = "http://localhost:5000/api";
-    const colorEsrado = { "pendiente": "#dc2626", "En_revisión": "#d97706", "Resuelto": "#16a34a" };
-    const labelEstado = { "pendiente": "Pendiente", "En_revisión": "En revisión", "Resuelto": "Resuelto" };
+    const colorEstado = {
+      pending: "#dc2626",
+      validated: "#16a34a",
+      rejected: "#6b7280",
+      default: "#2563eb",
+    };
+    const labelEstado = {
+      pending: "Pendiente",
+      validated: "Validado",
+      rejected: "Rechazado",
+    };
 
     function creatIcono(estado) {
-      const color = colorEsrado[estado] || "#2563eb";
+      const color = colorEstado[estado] || colorEstado.default;
       return L.divIcon({
         className: "",
         html:`<div style="width:18px;height:18px;background:${color};border:3px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
@@ -115,7 +144,7 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    fetch(`${API_URL}/reports`)
+    fetch(`${API_URL}/reports?status=validated`)
       .then(res => res.json())
       .then(reportes => {
         reportes.forEach(r => {
@@ -124,18 +153,19 @@
 
           if (latitude == null || longitude == null) return;
 
-          const status = r.status ?? r.estado ?? 'pending';
+          const status = r.status ?? r.estado ?? 'validated';
+          const normalizedStatus = status.toLowerCase();
 
-          L.marker([latitude, longitude], { icon: creatIcono(status) }).addTo(map)
+          L.marker([latitude, longitude], { icon: creatIcono(normalizedStatus) }).addTo(map)
             .bindPopup(`
             <b>${r.titulo}</b><br>
             Tipo: ${r.contaminationType || r.contaminacionType || "N/A"}<br>
-            Estado: <span style="color:${colorEsrado[status] || '#2563eb'}; font-weight:bold">${labelEstado[status] || status}</span><br>
+            Estado: <span style="color:${colorEstado[normalizedStatus] || colorEstado.default}; font-weight:bold">${labelEstado[normalizedStatus] || normalizedStatus}</span><br>
             ${r.direccion ? "📍" + r.direccion : ""}
               <div class="p-2">
                 <h3 class="font-bold text-sm mb-1">${r.titulo}</h3>
                 <p class="text-xs text-gray-600 mb-2">${r.descripcion}</p>
-                <span class="text-xs font-semibold" style="color:${colorEsrado[status] || '#2563eb'}">${labelEstado[status] || status}</span>
+                <span class="text-xs font-semibold" style="color:${colorEstado[normalizedStatus] || colorEstado.default}">${labelEstado[normalizedStatus] || normalizedStatus}</span>
               </div>
             `);
         });
@@ -158,7 +188,7 @@
       try {
 
         //Obtener reportes
-        const resReportes = await fetch(`${API_URL}/reports`);
+        const resReportes = await fetch(`${API_URL}/reports?status=validated`);
         const reportes = await resReportes.json();
 
         const totalReportesEl = document.getElementById("total-reportes");
