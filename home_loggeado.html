@@ -101,30 +101,72 @@
   </section>
 
 
-  <section class="p-10">
-    <div class="relative rounded-2xl overflow-hidden shadow" style="height: 400px; background: linear-gradient(135deg, #c8dde0 0%, #b8d4c8 40%, #c4dcc8 70%, #d0e4d0 100%);">
+  <!-- MAPA INTERACTIVO -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<section class="p-10" aria-labelledby="map-title">
+  <h2 id="map-title" class="text-xl font-bold text-gray-800 mb-4">Mapa de reportes activos</h2>
+  <div id="map" class="rounded-2xl overflow-hidden shadow" style="height: 420px; z-index: 0;"></div>
+</section>
 
-      <svg class="absolute inset-0 w-full h-full" aria-hidden="true">
-        <defs>
-          <pattern id="grid" width="40" height="40">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
-      </svg>
+<script>
+  const API_URL = "http://localhost:5000/api";
+  const colorEstado = { "pendiente": "#dc2626", "En_revisión": "#d97706", "Resuelto": "#16a34a" };
+  const labelEstado = { "pendiente": "Pendiente", "En_revisión": "En revisión", "Resuelto": "Resuelto" };
 
-      <!-- MARCADOR -->
-      <a href="detalle.html" class="absolute focus:ring-4 focus:ring-blue-500" style="left: 50%; top: 45%; transform: translate(-50%, -100%);" aria-label="Punto de contaminación - Haz clic para más detalles">        <div class="flex flex-col items-center">
-          <div class="w-12 h-12 rounded-full flex items-center justify-center bg-red-700">
-            <div class="w-4 h-4 rounded-full bg-white"></div>
-          </div>
-          <div class="w-0 h-0 border-l-8 border-r-8 border-t-[14px] border-transparent border-t-red-500 -mt-1"></div>
-        </div>
-      </a>
+  function crearIcono(estado) {
+    const color = colorEstado[estado] || "#2563eb";
+    return L.divIcon({
+      className: "",
+      html: `<div style="width:18px;height:18px;background:${color};border:3px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
+      iconSize: [18, 18],
+      iconAnchor: [9, 9]
+    });
+  }
 
-    </div>
-  </section>
+  const map = L.map('map', {
+    minZoom: 8,
+    maxBounds: [[2.5, -77.5], [5.2, -75.5]]
+  }).setView([3.8, -76.5], 9);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  fetch(`${API_URL}/reportes`)
+    .then(res => res.json())
+    .then(reportes => {
+      reportes.forEach(r => {
+        if (!r.localizacion?.latitud || !r.localizacion?.longitud) return;
+        L.marker([r.localizacion.latitud, r.localizacion.longitud], { icon: crearIcono(r.estado) })
+          .addTo(map)
+          .bindPopup(`
+            <b>${r.titulo}</b><br>
+            Tipo: ${r.contaminacionType || "N/A"}<br>
+            Estado: <span style="color:${colorEstado[r.estado]};font-weight:bold">${labelEstado[r.estado] || r.estado}</span><br>
+            ${r.direccion ? "📍 " + r.direccion : ""}
+            <div class="p-2">
+              <p class="text-xs text-gray-600 mt-1">${r.descripcion}</p>
+            </div>
+          `);
+      });
+    })
+    .catch(() => console.error("No se pudo cargar los reportes."));
+
+  const legend = L.control({ position: 'bottomright' });
+  legend.onAdd = () => {
+    const div = L.DomUtil.create('div', "");
+    div.style.cssText = "background:white;padding:10px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.2);font-size:13px;line-height:1.8";
+    div.innerHTML = `<b style="display:block;margin-bottom:4px">Estado</b>
+      <span style="color:#dc2626">● Pendiente</span><br>
+      <span style="color:#d97706">● En revisión</span><br>
+      <span style="color:#16a34a">● Resuelto</span>`;
+    return div;
+  };
+  legend.addTo(map);
+</script>
   </main>
 
   <footer class="bg-gray-100 text-gray-600 text-center py-4">
