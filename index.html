@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Observatorio ciudadano para reportar y visualizar problemas de contaminación hídrica en tu comunidad.">
   <title>Observatorio del Agua - Reporta Contaminación de Agua</title>
-  <link rel="stylesheet" href="tailwind.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="accessibility.css">
 </head>
 
@@ -115,7 +115,6 @@
    </section>
    <script>
     const API_URL = "http://localhost:5000/api";
-<<<<<<< Updated upstream
     const colorEstado = {
       pending: "#dc2626",
       validated: "#16a34a",
@@ -130,13 +129,6 @@
 
     function creatIcono(estado) {
       const color = colorEstado[estado] || colorEstado.default;
-=======
-    const colorEstado = { "pending": "#dc2626", "validated": "#d97706", "rejected": "#16a34a" };
-    const labelEstado = { "pending": "Pendiente", "validated": "Validado", "rejected": "Rechazado" };
-
-    function creatIcono(estado) {
-      const color = colorEstado[estado] || "#2563eb";
->>>>>>> Stashed changes
       return L.divIcon({
         className: "",
         html:`<div style="width:18px;height:18px;background:${color};border:3px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
@@ -152,7 +144,6 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-<<<<<<< Updated upstream
     fetch(`${API_URL}/reports?status=validated`)
       .then(res => res.json())
       .then(reportes => {
@@ -175,23 +166,6 @@
                 <h3 class="font-bold text-sm mb-1">${r.titulo}</h3>
                 <p class="text-xs text-gray-600 mb-2">${r.descripcion}</p>
                 <span class="text-xs font-semibold" style="color:${colorEstado[normalizedStatus] || colorEstado.default}">${labelEstado[normalizedStatus] || normalizedStatus}</span>
-=======
-    fetch(`${API_URL}/reports`)
-      .then(res => res.json())
-      .then(reportes => {
-        reportes.forEach(r => {
-          if (!r.localizacion?.latitude || !r.localizacion?.longitude) return;
-          L.marker([r.localizacion.latitude, r.localizacion.longitude], { icon: creatIcono(r.status) }).addTo(map)
-            .bindPopup(`
-            <b>${r.title}</b><br>
-            Tipo: ${r.contaminationType || "N/A"}<br>
-            Estado: <span style="color:${colorEstado[r.status]}; font-weight:bold">${labelEstado[r.status] || r.status}</span><br>
-            ${r.address ? "📍" + r.address : ""}
-              <div class="p-2">
-                <h3 class="font-bold text-sm mb-1">${r.title}</h3>
-                <p class="text-xs text-gray-600 mb-2">${r.description}</p>
-                <span class="text-xs font-semibold" style="color:${colorEstado[r.status]}">${labelEstado[r.status]}</span>
->>>>>>> Stashed changes
               </div>
             `);
         });
