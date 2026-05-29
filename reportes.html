@@ -79,7 +79,10 @@
       if (status) params.set("status", status);
 
       try {
-        const response = await fetch(`${API_URL}/reports?${params.toString()}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_URL}/reports?${params.toString()}`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
         if (!response.ok) throw new Error("No se pudieron cargar reportes.");
         const reports = await response.json();
         renderReports(reports.length ? reports : fallbackReports);
@@ -118,9 +121,11 @@
       list.querySelectorAll("[data-validate]").forEach((button) => {
         button.addEventListener("click", async () => {
           if (button.dataset.validate.startsWith("demo")) return;
+          const token = localStorage.getItem("token");
           await fetch(`${API_URL}/reports/${button.dataset.validate}`, {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", 
+            "Authorization": `Bearer ${token}` },
             body: JSON.stringify({ status: "validated" })
           });
           loadReports();
@@ -131,7 +136,11 @@
         button.addEventListener("click", async () => {
           if (!confirm("¿Eliminar este reporte?")) return;
           if (button.dataset.delete.startsWith("demo")) return;
-          await fetch(`${API_URL}/reports/${button.dataset.delete}`, { method: "DELETE" });
+          const token = localStorage.getItem("token");
+          await fetch(`${API_URL}/reports/${button.dataset.delete}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+          });
           loadReports();
         });
       });

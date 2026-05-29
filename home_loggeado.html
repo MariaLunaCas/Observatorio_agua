@@ -191,8 +191,8 @@
       document.getElementById("total-reportes").textContent = reportes.length;
 
       //Resueltos
-      const resueltos = reportes.filter(r => r.estado === "Resolved").length;
-      document.getElementById("resueltos").textContent = resueltos;
+      const resueltos = reportes.filter(r => r.status === "validated").length;
+      document.getElementById("resueltos").textContent = reportes.length? `${Math.round((resueltos / reportes.length) * 100)}%`: "0%";
 
       //Usuarios
       document.getElementById("usuarios").textContent = usuarios.length;
