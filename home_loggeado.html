@@ -78,23 +78,23 @@
     <!-- STATS -->
     <dl class="grid grid-cols-2 gap-4 text-center">
       <div class="bg-white/20 p-4 rounded-lg">
-        <dt class="text-2xl font-bold">847</dt>
+        <dt class="text-2xl font-bold" id="total-reportes">0</dt>
         <dd class="text-sm">Reportes activos</dd>
       </div>
 
       <div class="bg-white/20 p-4 rounded-lg">
-        <dt class="text-2xl font-bold">92%</dt>
+        <dt class="text-2xl font-bold" id="resueltos">0%</dt>
         <dd class="text-sm">Validados</dd>
       </div>
 
       <div class="bg-white/20 p-4 rounded-lg">
-        <dt class="text-2xl font-bold">2.4k</dt>
+        <dt class="text-2xl font-bold" id="usuarios">0</dt>
         <dd class="text-sm">Ciudadanos</dd>
       </div>
 
       <div class="bg-white/20 p-4 rounded-lg">
-        <dt class="text-2xl font-bold">38</dt>
-        <dd class="text-sm">Municipios</dd>
+        <dt class="text-2xl font-bold" id="municipios">0</dt>
+        <dd class="text-sm">Municipios Monitoriados</dd>
       </div>
     </dl>
 
@@ -166,6 +166,47 @@
     return div;
   };
   legend.addTo(map);
+
+  async function cargarDashboard() {
+    try {
+      //Token
+      const token = localStorage.getItem("token");
+      //Reportes
+      const resReportes = await fetch(`${API_URL}/reports`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      const reportes = await resReportes.json();
+
+      //usuarios
+      const resUsuarios = await fetch(`${API_URL}/users`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      const usuarios = await resUsuarios.json();
+
+      //Total Reportes
+      document.getElementById("total-reportes").textContent = reportes.length;
+
+      //Resueltos
+      const resueltos = reportes.filter(r => r.estado === "Resolved").length;
+      document.getElementById("resueltos").textContent = resueltos;
+
+      //Usuarios
+      document.getElementById("usuarios").textContent = usuarios.length;
+
+      // Total municipios
+      const municipios = new Set(reportes.map(r => r.address).filter(Boolean));
+      document.getElementById("municipios").textContent = municipios.size;
+      
+      // Aquí podrías actualizar el DOM con las estadísticas obtenidas
+    } catch (error) {
+      console.error("Error al cargar estadísticas:", error);
+    }
+  }
+  cargarDashboard();
 </script>
   </main>
 
