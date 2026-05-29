@@ -29,14 +29,17 @@ async function bootstrap() {
     origin: [
       'http://127.0.0.1:5500',
       'http://localhost:5500',
+      'http://localhost:8080',
+      'http://127.0.0.1:8080',
       'http://127.0.0.1:4173',
       'http://localhost:4173',
       'http://localhost:8000',
       'http://127.0.0.1:8000',
     ],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
+    preflightContinue: false,
   });
 
   await app.listen(5000);

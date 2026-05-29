@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Observatorio ciudadano para reportar y visualizar problemas de contaminación hídrica en tu comunidad.">
   <title>Observatorio del Agua - Reporta Contaminación de Agua</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="tailwind.css">
   <link rel="stylesheet" href="accessibility.css">
 </head>
 
@@ -73,12 +73,12 @@
     <!-- STATS -->
     <dl class="grid grid-cols-2 gap-4 text-center">
       <div class="bg-white/20 p-4 rounded-lg">
-        <dt class="text-2xl font-bold">0</dt>
+        <dt id="total-reportes" class="text-2xl font-bold">0</dt>
         <dd class="text-sm">Reportes activos</dd>
       </div>
 
       <div class="bg-white/20 p-4 rounded-lg">
-        <dt class="text-2xl font-bold">0</dt>
+        <dt id="municipios" class="text-2xl font-bold">0</dt>
         <dd class="text-sm">Municipios Monitoriados</dd>
       </div>
     </dl>
@@ -86,8 +86,8 @@
   </section>
 
   <!-- MAPA INTERACTIVO -->
-   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <script src="vendor/leaflet/leaflet.js"></script>
 
    <section class="p-10" aria-labelledby="map-title">
     <h2 id="map-title" class="text-xl font-bold text-gray-800 mb-4">Mapa de reportes activos</h2>
@@ -115,21 +115,27 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    fetch(`${API_URL}/reportes`)
+    fetch(`${API_URL}/reports`)
       .then(res => res.json())
       .then(reportes => {
         reportes.forEach(r => {
-          if (!r.localizacion?.latitud || !r.localizacion?.longitud) return;
-          L.marker([r.localizacion.latitud, r.localizacion.longitud], { icon: creatIcono(r.estado) }).addTo(map)
+          const latitude = r.location?.latitude ?? r.localizacion?.latitud;
+          const longitude = r.location?.longitude ?? r.localizacion?.longitud;
+
+          if (latitude == null || longitude == null) return;
+
+          const status = r.status ?? r.estado ?? 'pending';
+
+          L.marker([latitude, longitude], { icon: creatIcono(status) }).addTo(map)
             .bindPopup(`
             <b>${r.titulo}</b><br>
-            Tipo: ${r.contaminacionType || "N/A"}<br>
-            Estado: <span style="color:${colorEsrado[r.estado]}; font-weight:bold">${labelEstado[r.estado] || r.estado}</span><br>
+            Tipo: ${r.contaminationType || r.contaminacionType || "N/A"}<br>
+            Estado: <span style="color:${colorEsrado[status] || '#2563eb'}; font-weight:bold">${labelEstado[status] || status}</span><br>
             ${r.direccion ? "📍" + r.direccion : ""}
               <div class="p-2">
                 <h3 class="font-bold text-sm mb-1">${r.titulo}</h3>
                 <p class="text-xs text-gray-600 mb-2">${r.descripcion}</p>
-                <span class="text-xs font-semibold" style="color:${colorEsrado[r.estado]}">${labelEstado[r.estado]}</span>
+                <span class="text-xs font-semibold" style="color:${colorEsrado[status] || '#2563eb'}">${labelEstado[status] || status}</span>
               </div>
             `);
         });
@@ -155,11 +161,17 @@
         const resReportes = await fetch(`${API_URL}/reports`);
         const reportes = await resReportes.json();
 
-        document.getElementById("total-reportes").textContent = reportes.length;
+        const totalReportesEl = document.getElementById("total-reportes");
+        if (totalReportesEl) {
+          totalReportesEl.textContent = reportes.length;
+        }
 
         // Total municipios
         const municipios = new Set(reportes.map(r => r.address).filter(Boolean));
-        document.getElementById("municipios").textContent = municipios.size;
+        const municipiosEl = document.getElementById("municipios");
+        if (municipiosEl) {
+          municipiosEl.textContent = municipios.size;
+        }
 
       } catch (error) {
         console.error("Error al cargar estadísticas:", error);

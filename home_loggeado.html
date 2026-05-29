@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Panel de usuario - Haz reportes y visualiza el mapa de contaminación hídrica en tu comunidad.">
   <title>Panel de Usuario - Observatorio del Agua</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="tailwind.css">
   <link rel="stylesheet" href="accessibility.css">
 </head>
 
@@ -102,8 +102,8 @@
 
 
   <!-- MAPA INTERACTIVO -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+<script src="vendor/leaflet/leaflet.js"></script>
 
 <section class="p-10" aria-labelledby="map-title">
   <h2 id="map-title" class="text-xl font-bold text-gray-800 mb-4">Mapa de reportes activos</h2>
@@ -135,7 +135,7 @@
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
 
-  fetch(`${API_URL}/reportes`)
+  fetch(`${API_URL}/reports`)
     .then(res => res.json())
     .then(reportes => {
       reportes.forEach(r => {
