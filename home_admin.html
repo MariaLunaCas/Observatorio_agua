@@ -2,131 +2,123 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Observatorio del Agua</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard administrativo con estadísticas reales del Observatorio del Agua.">
+  <title>Dashboard Administrativo - Observatorio del Agua</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
 </head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
-<body class="bg-gray-100">
-
- <nav class="bg-white shadow flex justify-between items-center px-7 py-4">
-  
-  <!-- Logo -->
-  <div class="flex items-center space-x-2">
-    <div class="bg-blue-700 p-2 rounded-lg text-white">💧</div>
-    <div>
-      <h1 class="font-bold text-sm">Observatorio</h1>
-      <p class="text-xs text-gray-500">ciudadano de calidad del agua</p>
-    </div>
-  </div>
-
-  <!-- Menú -->
-  <div class="space-x-6 text-sm">
-    <a href="home_loggeado.html" class="text-blue-600 font-semibold">Inicio</a>
-    <a href="reportes.html" class="text-gray-600 hover:text-blue-600">Validar reporte</a>
-  </div>
-
-  <!-- Botones -->
-  <div class="flex items-center gap-3">
-    <a href="perfil.html">
-      <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
-        Mi perfil
-      </button>
-    </a>
-    <a href="index.html">
-    <button class="border-2 border-red-600 text-red-600 text-sm px-4 py-2 rounded-xl font-semibold hover:bg-red-600 hover:text-white transition">
-      Cerrar sesión
-    </button>
-    </a>
-  </div>
-
-</nav>
-
-  <!-- HERO -->
-  <section class="bg-gradient-to-r from-blue-800 to-cyan-500 text-white px-10 py-16 flex justify-between items-center">
-
-    <div class="max-w-xl">
-      <h2 class="text-4xl font-bold mb-4">
-        Protege las fuentes de agua de tu comunidad
-      </h2>
-
-      <p class="mb-6 text-gray-200">
-        Reporta, documenta y visualiza en tiempo real los focos de contaminación hídrica.
-      </p>
-
-      <div class="space-x-4">
-        <a href="login.html">
-          <button class="bg-blue-600 px-5 py-2 rounded-lg">
-            Hacer un reporte
-          </button>
-        </a>
-
-        <a href="login.html">
-          <button class="bg-blue-400 px-5 py-2 rounded-lg">
-            Ver el mapa 
-          </button>
-        </a>
-      </div>
-    </div>
-
-    <!-- STATS -->
-    <div class="grid grid-cols-2 gap-4 text-center">
-      <div class="bg-white/20 p-4 rounded-lg">
-        <h3 class="text-2xl font-bold">847</h3>
-        <p class="text-sm">Reportes activos</p>
-      </div>
-
-      <div class="bg-white/20 p-4 rounded-lg">
-        <h3 class="text-2xl font-bold">92%</h3>
-        <p class="text-sm">Validados</p>
-      </div>
-
-      <div class="bg-white/20 p-4 rounded-lg">
-        <h3 class="text-2xl font-bold">2.4k</h3>
-        <p class="text-sm">Ciudadanos</p>
-      </div>
-
-      <div class="bg-white/20 p-4 rounded-lg">
-        <h3 class="text-2xl font-bold">38</h3>
-        <p class="text-sm">Municipios</p>
-      </div>
-    </div>
-
-  </section>
-
-
-  <section class="p-10">
-    <div class="relative rounded-2xl overflow-hidden shadow" style="height: 400px; background: linear-gradient(135deg, #c8dde0 0%, #b8d4c8 40%, #c4dcc8 70%, #d0e4d0 100%);">
-
-
-      <svg class="absolute inset-0 w-full h-full">
-        <defs>
-          <pattern id="grid" width="40" height="40">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
-      </svg>
-
-      <!-- MARCADOR -->
-      <a href="detalle.html" class="absolute" style="left: 50%; top: 45%; transform: translate(-50%, -100%);">
-        <div class="flex flex-col items-center">
-          <div class="w-12 h-12 rounded-full flex items-center justify-center bg-red-500">
-            <div class="w-4 h-4 rounded-full bg-white"></div>
-          </div>
-          <div class="w-0 h-0 border-l-8 border-r-8 border-t-[14px] border-transparent border-t-red-500 -mt-1"></div>
+  <header>
+    <nav class="bg-white shadow flex justify-between items-center px-7 py-4" aria-label="Navegación de administración">
+      <a href="home_admin.html" class="flex items-center space-x-2" aria-label="Observatorio del Agua, inicio de administración">
+        <div class="bg-blue-700 p-2 rounded-lg text-white" aria-hidden="true">💧</div>
+        <div>
+          <span class="font-bold text-sm block">Observatorio</span>
+          <span class="text-xs text-gray-600 block">panel administrativo</span>
         </div>
       </a>
+      <ul class="flex space-x-6 text-sm">
+        <li><a href="home_admin.html" class="text-blue-700 font-semibold" aria-current="page">Dashboard</a></li>
+        <li><a href="reportes.html" class="text-gray-600 hover:text-blue-700">Reportes</a></li>
+        <li><a href="admin-users.html" class="text-gray-600 hover:text-blue-700">Usuarios</a></li>
+        <li><a href="admin-alertas.html" class="text-gray-600 hover:text-blue-700">Alertas</a></li>
+      </ul>
+      <a href="index.html" id="logout-link" class="border-2 border-red-600 text-red-700 text-sm px-4 py-2 rounded-xl font-semibold hover:bg-red-600 hover:text-white hover:no-underline transition">Cerrar sesión</a>
+    </nav>
+  </header>
 
-    </div>
-  </section>
-   <div class="bg-gray-100 text-gray-600 justify-center text-center py-4">
-    <div class="">
-    <div>
-      <footer class="bg-gray-100 center text-center py-4">
-        <h4 class="font-semibold">© 2023 Observatorio del Agua. Todos los derechos reservados.</h4>
-      </footer>
-    </div>
-    </div>
-  </div>
+  <main id="main" class="flex-1">
+    <section class="bg-gradient-to-r from-blue-800 to-cyan-600 text-white px-10 py-14" aria-labelledby="dashboard-title">
+      <div class="max-w-6xl mx-auto">
+        <h1 id="dashboard-title" class="text-4xl font-bold mb-3">Dashboard administrativo</h1>
+        <p class="text-blue-100 max-w-2xl">Consulta métricas reales de reportes, usuarios ciudadanos y validación de información ambiental.</p>
+        <div class="flex flex-wrap gap-4 mt-6">
+          <a href="reportes.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg hover:no-underline">Gestionar reportes</a>
+          <a href="admin-users.html" class="bg-white text-blue-800 font-semibold px-5 py-3 rounded-lg hover:no-underline">Gestionar usuarios</a>
+          <a href="admin-alertas.html" class="bg-white text-blue-800 font-semibold px-5 py-3 rounded-lg hover:no-underline">Configurar alertas</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto p-8" aria-labelledby="stats-title">
+      <h2 id="stats-title" class="text-xl font-bold text-gray-800 mb-5">Estadísticas del sistema</h2>
+      <div id="status" class="text-sm text-gray-600 mb-4" role="status" aria-live="polite">Cargando estadísticas...</div>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl p-5 shadow border border-gray-200">
+          <dt class="text-sm text-gray-600">Reportes totales</dt>
+          <dd id="stat-total" class="text-3xl font-bold text-gray-900">0</dd>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow border border-gray-200">
+          <dt class="text-sm text-gray-600">Pendientes</dt>
+          <dd id="stat-pending" class="text-3xl font-bold text-yellow-800">0</dd>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow border border-gray-200">
+          <dt class="text-sm text-gray-600">Validados</dt>
+          <dd id="stat-validated" class="text-3xl font-bold text-green-800">0</dd>
+        </div>
+        <div class="bg-white rounded-xl p-5 shadow border border-gray-200">
+          <dt class="text-sm text-gray-600">Tasa de validación</dt>
+          <dd id="stat-rate" class="text-3xl font-bold text-blue-800">0%</dd>
+        </div>
+      </dl>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        <section class="bg-white rounded-xl p-6 shadow border border-gray-200" aria-labelledby="types-title">
+          <h3 id="types-title" class="font-bold text-gray-800 mb-4">Reportes por tipo</h3>
+          <div id="type-list" class="space-y-3"></div>
+        </section>
+        <section class="bg-white rounded-xl p-6 shadow border border-gray-200" aria-labelledby="actions-title">
+          <h3 id="actions-title" class="font-bold text-gray-800 mb-4">Acciones rápidas</h3>
+          <div class="grid grid-cols-1 gap-3">
+            <a href="mapa.html" class="border border-gray-200 rounded-lg px-4 py-3 font-semibold text-blue-700">Abrir mapa público</a>
+            <a href="reportes.html?status=pending" class="border border-gray-200 rounded-lg px-4 py-3 font-semibold text-blue-700">Revisar pendientes</a>
+            <a href="admin-alertas.html" class="border border-gray-200 rounded-lg px-4 py-3 font-semibold text-blue-700">Crear alerta</a>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "http://localhost:5000/api";
+
+    document.getElementById("logout-link").addEventListener("click", () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    });
+
+    async function loadStats() {
+      try {
+        const response = await fetch(`${API_URL}/reports/stats/summary`);
+        if (!response.ok) throw new Error("No se pudieron cargar estadísticas.");
+        const stats = await response.json();
+        document.getElementById("stat-total").textContent = stats.total;
+        document.getElementById("stat-pending").textContent = stats.pending;
+        document.getElementById("stat-validated").textContent = stats.validated;
+        document.getElementById("stat-rate").textContent = `${stats.validationRate}%`;
+        document.getElementById("status").textContent = `${stats.citizens} ciudadano(s) con reportes registrados`;
+
+        const list = document.getElementById("type-list");
+        list.innerHTML = "";
+        if (!stats.byType.length) {
+          list.textContent = "Aún no hay reportes clasificados.";
+          return;
+        }
+        stats.byType.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "flex items-center justify-between border-b border-gray-100 pb-2";
+          row.innerHTML = `<span>${item._id || "Sin tipo"}</span><strong>${item.total}</strong>`;
+          list.appendChild(row);
+        });
+      } catch (error) {
+        document.getElementById("status").textContent = error.message;
+      }
+    }
+
+    loadStats();
+  </script>
 </body>
 </html>

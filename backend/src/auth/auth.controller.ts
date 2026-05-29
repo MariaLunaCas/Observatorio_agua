@@ -1,42 +1,72 @@
-import { Body, Controller, Post , Get, Req, Res, UseGuards} from '@nestjs/common';
-import { AuthService } from './auth.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import type { Request, Response } from 'express';
+
+import { AuthService } from './auth.service';
+
+interface JwtUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  picture: string;
+  sub?: string;
+}
+
+interface LoginDto {
+  email: string;
+  password: string;
+}
+
+interface GoogleRequest extends Request {
+  user: JwtUser;
+}
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
-    // PASO 1 del flujo: el frontend redirige aquí para iniciar auth con Google
+  constructor(private readonly authService: AuthService) {}
+
+  /**
+   * Inicia login con Google
+   */
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth() {
-    // Passport intercepta esta ruta y redirige automáticamente a Google.
-    // El cuerpo de esta función nunca se ejecuta.
+  googleAuth() {
+    // Passport redirige automáticamente
   }
 
-  // PASO 3 del flujo: Google redirige aquí con el código de autorización
+  /**
+   * Callback de Google OAuth
+   */
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleCallback(@Req() req: any, @Res() res: any) {
-    // req.user contiene lo que retornó GoogleStrategy.validate()
-    // Generamos nuestro propio JWT de sesión
+  googleCallback(@Req() req: GoogleRequest, @Res() res: Response) {
     const tokenData = this.authService.generateToken(req.user);
 
-    // Redirigimos al frontend con el token en la URL
-    // En producción: usa cookies HttpOnly en lugar de URL params
-    res.redirect(
-      `http://localhost:5500/home_loggeado.html?access_token=${tokenData.access_token}`, 
-    );
+    res.redirect(`http://127.0.0.1:5500/home_loggeado.html?token=${tokenData.access_token}`);
   }
 
-  // Endpoint para obtener el perfil del usuario autenticado
+  /**
+   * Perfil autenticado
+   */
   @Get('profile')
   @UseGuards(AuthGuard('jwt'))
-  getProfile(@Req() req: any) {
-    return req.user; // retorna el payload del JWT
+  getProfile(@Req() req: GoogleRequest) {
+    return req.user;
   }
 
+  /**
+   * Login tradicional
+   */
   @Post('login')
-  login(@Body() body: any) {
+  login(@Body() body: LoginDto) {
     return this.authService.login(body.email, body.password);
   }
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Configuración de alertas ambientales para reportes ciudadanos.">
+  <title>Configuración de Alertas - Observatorio del Agua</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+  <header class="bg-white shadow px-7 py-4">
+    <nav class="flex justify-between items-center" aria-label="Navegación administrativa">
+      <a href="home_admin.html" class="font-bold text-blue-900">Observatorio Admin</a>
+      <ul class="flex gap-5 text-sm">
+        <li><a href="home_admin.html" class="text-gray-700">Dashboard</a></li>
+        <li><a href="reportes.html" class="text-gray-700">Reportes</a></li>
+        <li><a href="admin-users.html" class="text-gray-700">Usuarios</a></li>
+        <li><a href="admin-alertas.html" class="text-blue-700 font-semibold" aria-current="page">Alertas</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="max-w-5xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6">
+    <section class="bg-white rounded-xl shadow border border-gray-200 p-6" aria-labelledby="form-title">
+      <h1 id="form-title" class="text-xl font-bold text-gray-900 mb-4">Nueva alerta</h1>
+      <form id="alert-form" class="space-y-4">
+        <div>
+          <label for="name">Nombre</label>
+          <input id="name" class="w-full border rounded-lg px-3 py-2" required maxlength="100">
+        </div>
+        <div>
+          <label for="contaminationType">Tipo de contaminación</label>
+          <input id="contaminationType" class="w-full border rounded-lg px-3 py-2" placeholder="Químico, residuos...">
+        </div>
+        <div>
+          <label for="location">Ubicación</label>
+          <input id="location" class="w-full border rounded-lg px-3 py-2" placeholder="Municipio o zona">
+        </div>
+        <div>
+          <label for="minUrgency">Urgencia mínima</label>
+          <input id="minUrgency" type="number" min="1" max="5" value="3" class="w-full border rounded-lg px-3 py-2">
+        </div>
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 font-semibold">Guardar alerta</button>
+      </form>
+    </section>
+
+    <section class="bg-white rounded-xl shadow border border-gray-200 p-6" aria-labelledby="alerts-title">
+      <h2 id="alerts-title" class="text-xl font-bold text-gray-900 mb-4">Alertas configuradas</h2>
+      <div id="status" class="text-sm text-gray-600 mb-4" role="status" aria-live="polite">Cargando alertas...</div>
+      <div id="alerts-list" class="space-y-3"></div>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "http://localhost:5000/api";
+
+    async function loadAlerts() {
+      const response = await fetch(`${API_URL}/alerts`);
+      const alerts = response.ok ? await response.json() : [];
+      document.getElementById("status").textContent = `${alerts.length} alerta(s) configuradas`;
+      const list = document.getElementById("alerts-list");
+      list.innerHTML = "";
+      alerts.forEach((alert) => {
+        const card = document.createElement("article");
+        card.className = "border border-gray-200 rounded-lg p-4 flex justify-between gap-4";
+        card.innerHTML = `
+          <div>
+            <h3 class="font-semibold text-gray-800">${alert.name}</h3>
+            <p class="text-sm text-gray-600">${alert.contaminationType || "Cualquier tipo"} · ${alert.location || "Cualquier ubicación"} · Urgencia >= ${alert.minUrgency}</p>
+            <p class="text-xs text-gray-600">${alert.active ? "Activa" : "Pausada"}</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="text-blue-700 font-semibold" data-toggle="${alert._id}" data-active="${alert.active}">${alert.active ? "Pausar" : "Activar"}</button>
+            <button class="text-red-700 font-semibold" data-delete="${alert._id}">Eliminar</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      list.querySelectorAll("[data-toggle]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await fetch(`${API_URL}/alerts/${button.dataset.toggle}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ active: button.dataset.active !== "true" })
+          });
+          loadAlerts();
+        });
+      });
+
+      list.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await fetch(`${API_URL}/alerts/${button.dataset.delete}`, { method: "DELETE" });
+          loadAlerts();
+        });
+      });
+    }
+
+    document.getElementById("alert-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await fetch(`${API_URL}/alerts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: document.getElementById("name").value.trim(),
+          contaminationType: document.getElementById("contaminationType").value.trim(),
+          location: document.getElementById("location").value.trim(),
+          minUrgency: Number(document.getElementById("minUrgency").value),
+          active: true
+        })
+      });
+      event.target.reset();
+      loadAlerts();
+    });
+
+    loadAlerts();
+  </script>
+</body>
+</html>

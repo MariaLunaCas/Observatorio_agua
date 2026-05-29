@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestión visual de usuarios del Observatorio del Agua.">
+  <title>Gestión de Usuarios - Observatorio del Agua</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+  <header class="bg-white shadow px-7 py-4">
+    <nav class="flex justify-between items-center" aria-label="Navegación administrativa">
+      <a href="home_admin.html" class="font-bold text-blue-900">Observatorio Admin</a>
+      <ul class="flex gap-5 text-sm">
+        <li><a href="home_admin.html" class="text-gray-700">Dashboard</a></li>
+        <li><a href="reportes.html" class="text-gray-700">Reportes</a></li>
+        <li><a href="admin-users.html" class="text-blue-700 font-semibold" aria-current="page">Usuarios</a></li>
+        <li><a href="admin-alertas.html" class="text-gray-700">Alertas</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="max-w-5xl mx-auto p-8">
+    <h1 class="text-2xl font-bold text-gray-900 mb-2">Gestión de usuarios</h1>
+    <p id="status" class="text-sm text-gray-600 mb-6" role="status" aria-live="polite">Cargando usuarios...</p>
+    <div class="bg-white rounded-xl shadow border border-gray-200 overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="users-table"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const API_URL = "http://localhost:5000/api";
+
+    async function loadUsers() {
+      const status = document.getElementById("status");
+      try {
+        const response = await fetch(`${API_URL}/users`);
+        if (!response.ok) throw new Error("No se pudieron cargar usuarios.");
+        const users = await response.json();
+        renderUsers(users);
+        status.textContent = `${users.length} usuario(s) registrados`;
+      } catch (error) {
+        status.textContent = error.message;
+      }
+    }
+
+    function renderUsers(users) {
+      const tbody = document.getElementById("users-table");
+      tbody.innerHTML = "";
+      users.forEach((user) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${user.name || user.username || "Sin nombre"}</td>
+          <td>${user.email || ""}</td>
+          <td>
+            <select data-role="${user._id}" class="border rounded px-2 py-1" aria-label="Cambiar rol de ${user.email || "usuario"}">
+              <option value="user" ${user.role === "user" ? "selected" : ""}>user</option>
+              <option value="admin" ${user.role === "admin" ? "selected" : ""}>admin</option>
+              <option value="validator" ${user.role === "validator" ? "selected" : ""}>validator</option>
+            </select>
+          </td>
+          <td><button class="text-red-700 font-semibold" data-delete="${user._id}">Eliminar</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      tbody.querySelectorAll("[data-role]").forEach((select) => {
+        select.addEventListener("change", async () => {
+          await fetch(`${API_URL}/users/${select.dataset.role}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ role: select.value })
+          });
+          loadUsers();
+        });
+      });
+
+      tbody.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          if (!confirm("¿Eliminar este usuario?")) return;
+          await fetch(`${API_URL}/users/${button.dataset.delete}`, { method: "DELETE" });
+          loadUsers();
+        });
+      });
+    }
+
+    loadUsers();
+  </script>
+</body>
+</html>

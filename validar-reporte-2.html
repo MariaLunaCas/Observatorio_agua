@@ -2,69 +2,147 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Validar reporte 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Validación técnica de reporte de contaminación hídrica número 2.">
+  <title>Validar Reporte 2 - Observatorio del Agua</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
 </head>
-<body class="h-screen bg-blue-50 flex flex-col">
-  <div class="bg-white border-b border-gray-100 shadow-sm px-10 py-4 flex items-center justify-between">
-    <a href="reportes.html" class="flex items-center gap-2 text-gray-600 hover:text-blue-600">
-      <span class="text-xl">←</span>
+<body class="min-h-screen bg-blue-50 flex flex-col">
+
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+
+  <header class="bg-white border-b border-gray-100 shadow-sm px-10 py-4 flex items-center justify-between">
+    <a href="reportes.html" class="flex items-center gap-2 text-gray-700 hover:text-blue-700 transition" aria-label="Volver al listado de reportes por validar">
+      <span class="text-xl" aria-hidden="true">←</span>
       <span class="font-semibold text-base">Validar reporte</span>
     </a>
-    <button class="border-2 border-blue-600 text-blue-600 text-sm px-5 py-2 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition">Editar Perfil</button>
-  </div>
-  <div class="flex flex-1 overflow-hidden px-12 py-8 gap-8">
+    <button type="button" class="border-2 border-blue-700 text-blue-700 text-sm px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 hover:text-white transition focus:ring-4 focus:ring-blue-600 focus:outline-none min-h-[44px]">Editar Perfil</button>
+  </header>
+
+  <main id="main" class="flex flex-col lg:flex-row flex-1 overflow-hidden px-8 md:px-12 py-8 gap-8">
+    
+    <!-- DETALLE DEL REPORTE -->
     <div class="flex-1 flex flex-col gap-5 overflow-y-auto">
-      <div class="bg-white rounded-2xl shadow-sm px-8 py-6">
+      <section class="bg-white rounded-2xl shadow-sm px-8 py-6" aria-labelledby="report-title">
         <div class="flex items-center gap-3 mb-2">
-          <span class="bg-yellow-400 text-white text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center shadow">2</span>
-          <h2 class="text-xl font-bold text-gray-800">Mortandad de peces — Embalse El Peñol</h2>
+          <span class="bg-yellow-700 text-white text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center shadow" aria-label="ID del reporte: 2">2</span>
+          <h1 id="report-title" class="text-xl font-bold text-gray-800">Mortandad de peces — Embalse El Peñol</h1>
         </div>
-        <div class="flex flex-wrap items-center gap-3 text-xs text-gray-400 mb-5">
+        
+        <div class="flex flex-wrap items-center gap-3 text-xs text-gray-600 mb-5" aria-label="Metadatos del reporte">
           <span>📍 Embalse El Peñol, Antioquia</span>
-          <span>·</span>
+          <span aria-hidden="true">·</span>
           <span>👤 Luis M.</span>
-          <span>·</span>
+          <span aria-hidden="true">·</span>
           <span>📅 Hace 5 días</span>
-          <span>·</span>
+          <span aria-hidden="true">·</span>
           <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">🐟 Fauna acuática</span>
         </div>
-        <div class="flex gap-3 mb-5">
-          <div class="w-28 h-24 rounded-xl bg-blue-500 shadow flex items-center justify-center text-4xl">🐟</div>
-          <div class="w-28 h-24 rounded-xl bg-teal-700 shadow flex items-center justify-center text-4xl">🌊</div>
-          <div class="w-28 h-24 rounded-xl bg-blue-800 shadow flex items-center justify-center text-4xl">⚠️</div>
-          <div class="w-28 h-24 rounded-xl bg-cyan-700 shadow flex items-center justify-center text-4xl">📸</div>
-          <div class="w-28 h-24 rounded-xl bg-indigo-700 shadow flex items-center justify-center text-4xl">🦠</div>
-          <div class="w-28 h-24 rounded-xl bg-blue-600 shadow flex items-center justify-center text-4xl">📍</div>
+
+        <div class="flex gap-3 mb-5 flex-wrap" aria-label="Imágenes de evidencia adjuntas">
+          <div class="w-28 h-24 rounded-xl bg-white border border-gray-300 shadow flex items-center justify-center text-4xl text-gray-900" aria-hidden="true"><span aria-hidden="true">🐟</span></div>
+          <div class="w-28 h-24 rounded-xl bg-white border border-gray-300 shadow flex items-center justify-center text-4xl text-gray-900" aria-hidden="true"><span aria-hidden="true">🌊</span></div>
+          <div class="w-28 h-24 rounded-xl bg-white border border-gray-300 shadow flex items-center justify-center text-4xl text-gray-900" aria-hidden="true"><span aria-hidden="true">⚠️</span></div>
+          <div class="w-28 h-24 rounded-xl bg-white border border-gray-300 shadow flex items-center justify-center text-4xl text-gray-900" aria-hidden="true"><span aria-hidden="true">📸</span></div>
+          <div class="w-28 h-24 rounded-xl bg-white border border-gray-300 shadow flex items-center justify-center text-4xl text-gray-900" aria-hidden="true"><span aria-hidden="true">🦠</span></div>
+          <div class="w-28 h-24 rounded-xl bg-white border border-gray-300 shadow flex items-center justify-center text-4xl text-gray-900" aria-hidden="true"><span aria-hidden="true">📍</span></div>
         </div>
+
         <p class="text-sm text-gray-600 leading-relaxed">Se encontraron cientos de peces muertos flotando en la superficie del embalse. Los pescadores locales reportan que el fenómeno comenzó de forma repentina. Se sospecha de una descarga de aguas con bajo nivel de oxígeno o presencia de sustancias tóxicas provenientes de cultivos cercanos.</p>
-      </div>
-      <div class="bg-white rounded-2xl shadow-sm px-8 py-6">
-        <h3 class="text-sm font-bold text-gray-700 mb-3">📝 Nota técnica del validador</h3>
-        <textarea class="w-full border border-gray-200 rounded-xl p-4 text-sm text-gray-600 resize-none focus:outline-none focus:border-blue-400 bg-gray-50" rows="5" placeholder="Escribe tu nota técnica aquí..."></textarea>
-      </div>
+      </section>
+
+      <section class="bg-white rounded-2xl shadow-sm px-8 py-6">
+        <label for="nota-tecnica" class="text-sm font-bold text-gray-700 mb-3 block">
+          <span aria-hidden="true">📝</span> Nota técnica del validador
+        </label>
+        <textarea id="nota-tecnica" class="w-full border border-gray-200 rounded-xl p-4 text-sm text-gray-600 resize-none focus:outline-none focus:border-blue-400 bg-gray-50" rows="5" placeholder="Escribe tu nota técnica aquí..."></textarea>
+      </section>
     </div>
-    <div class="w-72 flex flex-col gap-4">
-      <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Decisión de validación</h3>
-      <div class="bg-white border-2 border-green-400 rounded-2xl px-5 py-4 cursor-pointer hover:bg-green-50 transition shadow-sm">
-        <div class="flex items-center gap-3 mb-1"><span class="text-2xl">✅</span><p class="text-sm font-bold text-green-700">Validar reporte</p></div>
-        <p class="text-xs text-gray-400 ml-9">El reporte es verídico y bien documentado</p>
-      </div>
-      <div class="bg-white border-2 border-gray-200 rounded-2xl px-5 py-4 cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition shadow-sm">
-        <div class="flex items-center gap-3 mb-1"><span class="text-2xl">🔄</span><p class="text-sm font-bold text-gray-700">Solicitar corrección</p></div>
-        <p class="text-xs text-gray-400 ml-9">Necesita más información o fotos</p>
-      </div>
-      <div class="bg-white border-2 border-gray-200 rounded-2xl px-5 py-4 cursor-pointer hover:bg-red-50 hover:border-red-300 transition shadow-sm">
-        <div class="flex items-center gap-3 mb-1"><span class="text-2xl">❌</span><p class="text-sm font-bold text-gray-700">Rechazar</p></div>
-        <p class="text-xs text-gray-400 ml-9">Reporte duplicado o información incorrecta</p>
-      </div>
-      <div class="flex flex-col gap-2 mt-2">
-        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm shadow">✔ Confirmar validación</button>
-        <a href="validar-reporte-1.html" class="w-full">
-          <button class="w-full border-2 border-gray-200 text-gray-500 hover:bg-gray-100 font-semibold py-2.5 rounded-xl transition text-sm">← Siguiente reporte</button>
-        </a>
-      </div>
-    </div>
-  </div>
+
+    <!-- PANEL DE DECISIÓN -->
+    <section class="w-full lg:w-72 flex flex-col gap-4" aria-label="Panel de decisión">
+      <h2 class="text-xs font-bold text-gray-600 uppercase tracking-widest">Decisión de validación</h2>
+      
+      <form id="decision-form" class="space-y-4" novalidate>
+        <fieldset>
+          <legend class="sr-only">Seleccione una opción de validación</legend>
+          <div class="flex flex-col gap-4">
+            
+            <label class="block cursor-pointer">
+              <input type="radio" name="decision" value="validar" class="peer sr-only" checked>
+              <div class="bg-white border-2 border-gray-200 rounded-2xl px-5 py-4 transition shadow-sm
+                          peer-checked:border-green-400 peer-checked:bg-green-50
+                          peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-2xl" aria-hidden="true">✅</span>
+                  <span class="text-sm font-bold text-green-700">Validar reporte</span>
+                </div>
+                <p class="text-xs text-gray-600 ml-9">El reporte es verídico y bien documentado</p>
+              </div>
+            </label>
+
+            <label class="block cursor-pointer">
+              <input type="radio" name="decision" value="corregir" class="peer sr-only">
+              <div class="bg-white border-2 border-gray-200 rounded-2xl px-5 py-4 transition shadow-sm
+                          peer-checked:border-blue-400 peer-checked:bg-blue-50
+                          peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-2xl" aria-hidden="true">🔄</span>
+                  <span class="text-sm font-bold text-gray-700">Solicitar corrección</span>
+                </div>
+                <p class="text-xs text-gray-600 ml-9">Necesita más información o fotos</p>
+              </div>
+            </label>
+
+            <label class="block cursor-pointer">
+              <input type="radio" name="decision" value="rechazar" class="peer sr-only">
+              <div class="bg-white border-2 border-gray-200 rounded-2xl px-5 py-4 transition shadow-sm
+                          peer-checked:border-red-400 peer-checked:bg-red-50
+                          peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-2xl" aria-hidden="true">❌</span>
+                  <span class="text-sm font-bold text-gray-700">Rechazar</span>
+                </div>
+                <p class="text-xs text-gray-600 ml-9">Reporte duplicado o información incorrecta</p>
+              </div>
+            </label>
+
+          </div>
+        </fieldset>
+
+        <div class="flex flex-col gap-2 mt-4">
+          <button type="submit" class="w-full bg-green-700 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm shadow min-h-[44px]">
+            ✔ Confirmar validación
+          </button>
+          <a href="validar-reporte-1.html" class="w-full border-2 border-gray-200 text-gray-600 hover:bg-gray-100 font-semibold py-2.5 rounded-xl transition text-sm text-center flex items-center justify-center min-h-[44px] hover:no-underline">
+            ← Siguiente reporte
+          </a>
+        </div>
+      </form>
+      
+    </section>
+
+  </main>
+
+<script>
+document.getElementById("decision-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const decision = document.querySelector('input[name="decision"]:checked').value;
+  const nota = document.getElementById("nota-tecnica").value.trim();
+
+  console.log("Decisión guardada:", decision, "Nota:", nota);
+
+  const alertDiv = document.createElement("div");
+  alertDiv.setAttribute("role", "alert");
+  alertDiv.setAttribute("class", "bg-green-100 text-green-800 p-3 rounded-lg text-center font-medium mt-4");
+  alertDiv.textContent = `Validación confirmada con éxito (${decision}) 🎉`;
+  document.getElementById("decision-form").insertAdjacentElement("beforebegin", alertDiv);
+
+  setTimeout(() => {
+    window.location.href = "reportes.html";
+  }, 1200);
+});
+</script>
 </body>
 </html>

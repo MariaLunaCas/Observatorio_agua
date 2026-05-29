@@ -1,40 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, VerifyCallback } from 'passport-google-oauth20';
-import { ConfigService } from '@nestjs/config';
+import { Profile, Strategy } from 'passport-google-oauth20';
+
+interface GoogleUser {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  picture?: string;
+  accessToken: string;
+}
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-
-  constructor(private configService: ConfigService) {
+  constructor() {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: process.env.GOOGLE_CALLBACK_URL!,
-      scope: ['email', 'profile'], // qué pedimos a Google
+      scope: ['email', 'profile'],
     });
   }
 
-  /**
-   * validate() se ejecuta automáticamente cuando Google redirige
-   * al callback con el perfil del usuario ya verificado.
-   * Lo que retornamos aquí se adjunta a req.user
-   */
-  async validate(
+  validate(
     accessToken: string,
     refreshToken: string,
-    profile: any,
-  ): Promise<any> {
-
-    // Construimos un objeto usuario con los datos relevantes
-    const user = {
-    email: profile.emails?.[0]?.value,
-    firstName: profile.name?.givenName,
-    lastName: profile.name?.familyName,
-    picture: profile.photos?.[0]?.value,
-    accessToken,
-  };
-
-  return user;// null = sin error, user = datos adjuntados a req.user
+    profile: Profile,
+  ): GoogleUser {
+    return {
+      email: profile.emails?.[0]?.value,
+      firstName: profile.name?.givenName,
+      lastName: profile.name?.familyName,
+      picture: profile.photos?.[0]?.value,
+      accessToken,
+    };
   }
 }

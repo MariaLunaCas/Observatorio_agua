@@ -2,27 +2,46 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as express from 'express';
+import { join } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api'); // Establece el prefijo global para todas las rutas de la API
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true, // Elimina propiedades no definidas en el DTO
-    forbidNonWhitelisted: true, // Lanza un error si se envían propiedades no definidas en el DTO
-    transform: true, // Transforma los payloads a los tipos definidos en los DTOs
-  })); // Habilita la validación global de DTO
 
-  app.use(express.json()); // Habilita el parsing de JSON en las solicitudes
-  app.use(express.urlencoded({ extended: true })); // Habilita el parsing de URL-encoded en las solicitudes
+  app.setGlobalPrefix('api');
 
-  // Habilitar CORS con configuracion permisiva (solo para desarrollo)
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  if (!existsSync(join(process.cwd(), 'uploads'))) {
+    mkdirSync(join(process.cwd(), 'uploads'));
+  }
+  app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
+
   app.enableCors({
-    origin: ['http://localhost:5000', 'http://127.0.0.1:5000'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    origin: [
+      'http://127.0.0.1:5500',
+      'http://localhost:5500',
+      'http://127.0.0.1:4173',
+      'http://localhost:4173',
+      'http://localhost:8000',
+      'http://127.0.0.1:8000',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
+
   await app.listen(5000);
-   console.log('🚀 Backend corriendo en http://localhost:5000');
+
+  console.log('🚀 Backend running on http://localhost:5000');
 }
+
 bootstrap();
-  

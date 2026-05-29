@@ -1,92 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descripción</title>
+    <meta name="description" content="Paso 1: Describe el incidente de contaminación hídrica observado.">
+    <title>Descripción del Reporte - Observatorio del Agua</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="accessibility.css">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-2xl mx-auto">
+    <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
-        <div class="bg-gray-200 rounded-xl px-6 py-6 mb-7">
-            <div class="flex items-center justify-between">
+    <div class="w-full max-w-2xl mx-auto p-4">
+
+        <!-- Barra de progreso semántica -->
+        <nav aria-label="Progreso del reporte" class="bg-gray-200 rounded-xl px-6 py-6 mb-7 shadow-sm">
+            <ol class="flex items-center justify-between flex-wrap gap-y-2 md:flex-nowrap">
+                <li class="flex items-center gap-2" aria-current="step">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold" aria-hidden="true">1</div>
+                    <span class="text-blue-700 font-semibold text-sm">Descripción</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-gray-300 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold" aria-hidden="true">2</div>
+                    <span class="text-gray-600 text-sm">Clasificación</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-gray-300 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold" aria-hidden="true">3</div>
+                    <span class="text-gray-600 text-sm">Ubicación</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-gray-300 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold" aria-hidden="true">4</div>
+                    <span class="text-gray-600 text-sm">Evidencia</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Formulario Principal -->
+        <main id="main">
+            <form id="description-form" class="bg-white p-8 rounded-2xl shadow-xl w-full" novalidate>
                 
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                        1
+                <h1 class="text-3xl font-bold mb-2 text-center text-blue-900">¿Qué observaste?</h1>
+                <p class="text-gray-600 text-center mb-6">Describe lo que encontraste con el mayor detalle posible.</p>
+    
+                <div class="space-y-4 text-left">
+                    
+                    <div>
+                        <label for="title" class="block text-sm font-semibold text-gray-700 mb-1">Título del reporte</label>
+                        <input id="title" type="text" placeholder="Ej. Vertimiento de aguas grises en el río" class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" aria-describedby="title-error">
+                        <div id="title-error" class="error-message" role="alert" aria-live="polite"></div>
                     </div>
-                    <span class="text-blue-600 font-semibold">Descripción</span>
-                </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
-                        2
+    
+                    <div>
+                        <label for="description" class="block text-sm font-semibold text-gray-700 mb-1">Descripción</label>
+                        <textarea id="description" placeholder="Ingresa detalles sobre el color, olor, origen sospechado..." class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" rows="4" aria-describedby="description-error"></textarea>
+                        <div id="description-error" class="error-message" role="alert" aria-live="polite"></div>
                     </div>
-                    <span class="text-gray-600">Clasificación</span>
-                </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
-                        3
+    
+                    <div>
+                        <label for="waterSource" class="block text-sm font-semibold text-gray-700 mb-1">Fuente hídrica afectada <span aria-label="requerido">*</span></label>
+                        <input id="waterSource" type="text" placeholder="Ej. Río Medellín, Quebrada La Perla" required aria-required="true" class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" aria-describedby="waterSource-error">
+                        <div id="waterSource-error" class="error-message" role="alert" aria-live="polite"></div>
                     </div>
-                    <span class="text-gray-600">Ubicación</span>
+    
                 </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
-                        4
-                    </div>
-                    <span class="text-gray-600">Evidencia</span>
+    
+                <div class="flex justify-between mt-6 gap-4">
+                    <a href="home_loggeado.html" class="w-1/2 bg-gray-600 hover:bg-gray-600 text-white font-bold py-2 rounded-lg flex items-center justify-center min-h-[44px] hover:no-underline transition" aria-label="Cancelar reporte y regresar a la página de inicio">
+                        Cancelar
+                    </a>
+    
+                    <button type="submit" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg flex items-center justify-center min-h-[44px] transition">
+                        Siguiente
+                    </button>
                 </div>
-
-            </div>
-        </div>
-
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full">
-            
-            <h1 class="text-3xl font-bold mb-2 text-center">¿Qué observaste?</h1>
-            <p class="text-gray-500 text-center mb-6">Describe lo que encontraste con el mayor detalle posible.</p>
-
-            <div class="space-y-4">
-                
-                <div>
-                    <h2 class="text-sm font-semibold mb-1">Título del reporte</h2>
-                    <input type="text" class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </div>
-
-                <div>
-                    <h2 class="text-sm font-semibold mb-1">Descripción</h2>
-                    <textarea class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" rows="4"></textarea>
-                </div>
-
-                <div>
-                    <h2 class="text-sm font-semibold mb-1">Fuente hídrica afectada *</h2>
-                    <input type="text" class="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </div>
-
-            </div>
-
-            <div class="flex justify-between mt-6 gap-4">
-                <a href="home_loggeado.html" class="w-1/2 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 rounded-lg flex items-center justify-center">
-                    Cancelar
-                </a>
-
-                <a href="clasificacion.html" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg flex items-center justify-center">
-                    Siguiente
-                </a>
-            </div>
-
-        </div>
+    
+            </form>
+        </main>
 
     </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Cargar valores existentes de localStorage
+  document.getElementById("title").value = localStorage.getItem("report_title") || "";
+  document.getElementById("description").value = localStorage.getItem("report_description") || "";
+  document.getElementById("waterSource").value = localStorage.getItem("report_waterSource") || "";
+});
+
+function validateForm() {
+  const waterSource = document.getElementById("waterSource");
+  let isValid = true;
+
+  // Fuente hídrica es requerida
+  if (!waterSource.value.trim()) {
+    document.getElementById("waterSource-error").textContent = "La fuente hídrica afectada es requerida";
+    waterSource.setAttribute("aria-invalid", "true");
+    isValid = false;
+  } else {
+    document.getElementById("waterSource-error").textContent = "";
+    waterSource.setAttribute("aria-invalid", "false");
+  }
+
+  return isValid;
+}
+
+document.getElementById("description-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) {
+    return;
+  }
+
+  // Guardar en localStorage
+  localStorage.setItem("report_title", document.getElementById("title").value.trim());
+  localStorage.setItem("report_description", document.getElementById("description").value.trim());
+  localStorage.setItem("report_waterSource", document.getElementById("waterSource").value.trim());
+
+  // Redirigir al siguiente paso
+  window.location.href = "clasificacion.html";
+});
+</script>
 </body>
 </html>

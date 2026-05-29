@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
@@ -13,8 +22,23 @@ export class ReportsController {
   }
 
   @Get()
-  findAll() {
-    return this.reportsService.findAll();
+  findAll(
+    @Query('contaminationType') contaminationType?: string,
+    @Query('location') location?: string,
+    @Query('status') status?: string,
+    @Query('createdBy') createdBy?: string,
+  ) {
+    return this.reportsService.findAll({
+      contaminationType,
+      location,
+      status,
+      createdBy,
+    });
+  }
+
+  @Get('stats/summary')
+  stats() {
+    return this.reportsService.stats();
   }
 
   @Get(':id')

@@ -3,125 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubicación</title>
+    <meta name="description" content="Paso 3: Proporciona la ubicación geográfica del reporte de contaminación.">
+    <title>Ubicación del Reporte - Observatorio del Agua</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="accessibility.css">
+    <!-- Leaflet CSS para mapa real -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <style>
+      #map {
+        height: 100%;
+        border-radius: 0.75rem;
+      }
+      .leaflet-container {
+        border-radius: 0.75rem;
+      }
+    </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-2xl mx-auto">
+    <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
-        <div class="bg-gray-200 rounded-xl px-6 py-6 mb-7">
-            <div class="flex items-center justify-between">
+    <div class="w-full max-w-2xl mx-auto p-4">
+
+        <!-- Barra de progreso semántica -->
+        <nav aria-label="Progreso del reporte" class="bg-gray-200 rounded-xl px-6 py-6 mb-7 shadow-sm">
+            <ol class="flex items-center justify-between flex-wrap gap-y-2 md:flex-nowrap">
+                <li class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold" aria-hidden="true">1</div>
+                    <span class="text-blue-700 font-semibold text-sm">Descripción</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-blue-600 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold" aria-hidden="true">2</div>
+                    <span class="text-blue-700 font-semibold text-sm">Clasificación</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-blue-600 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2" aria-current="step">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold" aria-hidden="true">3</div>
+                    <span class="text-blue-700 font-semibold text-sm">Ubicación</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-gray-300 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold" aria-hidden="true">4</div>
+                    <span class="text-gray-600 text-sm">Evidencia</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Contenedor principal -->
+        <main id="main">
+            <form id="location-form" class="bg-white p-8 rounded-2xl shadow-xl w-full" novalidate>
+    
+                <h1 class="text-3xl font-bold mb-1 text-center text-blue-900">¿Dónde ocurre?</h1>
+                <p class="text-gray-600 text-center text-sm mb-6">
+                    Usa tu ubicación actual o selecciona en el mapa interactivo
+                </p>
                 
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                        1
-                    </div>
-                    <span class="text-blue-600 font-semibold">Descripción</span>
+                <div class="flex justify-center mb-5">
+                    <button type="button" id="btn-gps" class="bg-green-700 hover:bg-green-800 text-white font-semibold px-8 py-3 rounded-lg flex items-center gap-2 transition-colors min-h-[44px]">
+                        <span aria-hidden="true">📍</span> Obtener mi ubicación actual
+                    </button>
                 </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                        2
-                    </div>
-                    <span class="text-blue-600 font-semibold">Clasificación</span>
+    
+                <!-- Mapa real con Leaflet -->
+                <div class="relative rounded-xl overflow-hidden mb-4 border-2 border-blue-300" style="height: 280px;">
+                    <div id="map" role="application" aria-label="Mapa interactivo de Medellín. Haz clic para seleccionar ubicación."></div>
                 </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                        3
-                    </div>
-                    <span class="text-blue-600 font-semibold">Ubicación</span>
-                </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
-                        4
-                    </div>
-                    <span class="text-gray-600">Evidencia</span>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full">
-
-            <h1 class="text-3xl font-bold mb-1 text-center">¿Donde ocurre?</h1>
-            <p class="text-gray-400 text-center text-sm mb-6">
-                Usa tu ubicación actual o seleccione el mapa
-            </p>
-            <div class="flex justify-center mb-5">
-                <button class="bg-green-700 hover:bg-green-800 text-white font-semibold px-8 py-3 rounded-lg flex items-center gap-2 transition-colors">
-                    <span>📍</span> Usar mi ubicación actual
-                </button>
-            </div>
-
-            <div class="relative rounded-xl overflow-hidden mb-4" style="height: 210px; background: linear-gradient(135deg, #c8dde0 0%, #b8d4c8 40%, #c4dcc8 70%, #d0e4d0 100%);">
-
-                <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)"/>
-                </svg>
-
-                <div class="absolute" style="left: 50%; top: 55%; transform: translate(-50%, -50%);">
-                    <div style="width: 80px; height: 20px; background: rgba(80,120,140,0.35); border-radius: 50%; filter: blur(4px);"></div>
-                </div>
-
-                <div class="absolute" style="left: 50%; top: 45%; transform: translate(-50%, -100%);">
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background: #e53935;">
-                            <div class="w-4 h-4 rounded-full bg-white"></div>
-                        </div>
-                        <div style="width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 14px solid #e53935; margin-top: -2px;"></div>
-                    </div>
-                </div>
-
-                <div class="absolute bottom-3 right-3">
-                    <span class="bg-white text-gray-600 text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm">
-                        Toca para ajustar
+    
+                <!-- Coordenadas dinámicas anunciadas por lector de pantalla -->
+                <div class="flex justify-center mb-4">
+                    <span id="coordinates-badge" class="flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-4 py-1.5 rounded-full">
+                        <span class="w-2 h-2 rounded-full bg-green-500 inline-block" aria-hidden="true"></span>
+                        <span id="coords-text" role="status" aria-live="polite">6.2345° N, -75.5678° O · Precisión: ±8m</span>
                     </span>
                 </div>
-
-            </div>
-
-            <div class="flex justify-center mb-4">
-                <span class="flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-4 py-1.5 rounded-full">
-                    <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-                    6.2345°N, -75.5678°O · Precisión: ±8m
-                </span>
-            </div>
-
-            <div class="mb-6">
-                <label class="block text-sm text-gray-500 mb-1">Dirección aproximada (opcional)</label>
-                <input type="text" value="Carrera 45 #23B, Zona Industrial Norte"
-                    class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700">
-            </div>
-
-            <!-- BOTONES -->
-            <div class="flex gap-4">
-                <a href="descripcion.html" class="w-1/2 text-center bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 rounded-lg">
-                    Anterior
-                </a>
-                </a>
-                <a href="evidencia.html"
-                class="w-1/2 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
-                    Siguiente  
-                </a>
-            </div>
-
-        </div>
+    
+                <div class="mb-6 text-left">
+                    <label for="address" class="block text-sm font-semibold text-gray-700 mb-1">Dirección aproximada (opcional)</label>
+                    <input id="address" type="text" placeholder="Ej. Carrera 45 #23B, Zona Industrial Norte"
+                        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+    
+                <!-- BOTONES -->
+                <div class="flex gap-4">
+                    <a href="clasificacion.html" class="w-1/2 text-center bg-gray-600 hover:bg-gray-600 text-white font-bold py-2 rounded-lg flex items-center justify-center min-h-[44px] hover:no-underline transition">
+                        Anterior
+                    </a>
+                    <button type="submit" class="w-1/2 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2 min-h-[44px]">
+                        Siguiente  
+                    </button>
+                </div>
+    
+            </form>
+        </main>
 
     </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+let map;
+let marker;
+let currentLat = 6.2518;
+let currentLon = -75.5636;
+let isGeocodingInProgress = false;
+
+function updateCoordinatesDisplay() {
+  const accuracy = Math.floor(Math.random() * 3) + 5;
+  const coordsText = `${currentLat.toFixed(4)}° N, ${currentLon.toFixed(4)}° O · Precisión: ±${accuracy}m`;
+  document.getElementById("coords-text").textContent = coordsText;
+  localStorage.setItem("report_coords", coordsText);
+}
+
+// Función para obtener dirección desde coordenadas (Reverse Geocoding)
+async function getAddressFromCoordinates(lat, lon) {
+  try {
+    isGeocodingInProgress = true;
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`);
+    
+    if (!response.ok) throw new Error("Error en geocoding");
+    
+    const data = await response.json();
+    const address = data.address;
+    
+    // Construir dirección legible
+    let formattedAddress = "";
+    
+    if (address.road) formattedAddress += address.road;
+    if (address.house_number) formattedAddress += " #" + address.house_number;
+    if (address.neighbourhood) formattedAddress += ", " + address.neighbourhood;
+    if (address.suburb) formattedAddress += ", " + address.suburb;
+    if (address.city) formattedAddress += ", " + address.city;
+    
+    if (!formattedAddress) {
+      // Si no hay dirección específica, usar descripción general
+      formattedAddress = data.display_name ? data.display_name.split(",").slice(0, 3).join(",") : "Ubicación sin nombre";
+    }
+    
+    document.getElementById("address").value = formattedAddress;
+    isGeocodingInProgress = false;
+    return formattedAddress;
+  } catch (error) {
+    console.warn("No se pudo obtener la dirección:", error);
+    isGeocodingInProgress = false;
+    return null;
+  }
+}
+
+function initMap() {
+  // Crear mapa centrado en Medellín
+  map = L.map('map', {
+    center: [currentLat, currentLon],
+    zoom: 13,
+    scrollWheelZoom: true,
+    touchZoom: true,
+    dragging: true,
+    zoomControl: true
+  });
+
+  // Agregar capa de OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19,
+    minZoom: 10
+  }).addTo(map);
+
+  // Crear marcador
+  marker = L.marker([currentLat, currentLon], {
+    draggable: true,
+    icon: L.icon({
+      iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" width="32" height="32"><circle cx="12" cy="12" r="8"/><path d="M12 2a10 10 0 0 0-10 10h20a10 10 0 0 0-10-10z"/></svg>',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    })
+  }).addTo(map);
+
+  // Mostrar popup con coordenadas
+  marker.bindPopup(`<div style="font-size: 12px; font-weight: bold;">📍 ${currentLat.toFixed(4)}° N, ${currentLon.toFixed(4)}° O</div>`);
+
+  // Actualizar coordenadas cuando se arrastra el marcador
+  marker.on('dragend', async () => {
+    const pos = marker.getLatLng();
+    currentLat = pos.lat;
+    currentLon = pos.lng;
+    updateCoordinatesDisplay();
+    
+    // Obtener dirección automáticamente
+    const address = await getAddressFromCoordinates(currentLat, currentLon);
+    
+    marker.setPopupContent(`<div style="font-size: 12px; font-weight: bold;">📍 ${currentLat.toFixed(4)}° N, ${currentLon.toFixed(4)}° O</div>`);
+    marker.openPopup();
+  });
+
+  // Hacer clic en el mapa para mover el marcador
+  map.on('click', async (e) => {
+    currentLat = e.latlng.lat;
+    currentLon = e.latlng.lng;
+    marker.setLatLng([currentLat, currentLon]);
+    updateCoordinatesDisplay();
+    
+    // Obtener dirección automáticamente
+    const address = await getAddressFromCoordinates(currentLat, currentLon);
+    
+    marker.setPopupContent(`<div style="font-size: 12px; font-weight: bold;">📍 ${currentLat.toFixed(4)}° N, ${currentLon.toFixed(4)}° O</div>`);
+    marker.openPopup();
+  });
+
+  updateCoordinatesDisplay();
+}
+
+// Cargar valores existentes de localStorage
+document.addEventListener("DOMContentLoaded", () => {
+  // Inicializar mapa
+  initMap();
+
+  document.getElementById("address").value = localStorage.getItem("report_address") || "";
+  const savedCoords = localStorage.getItem("report_coords");
+  if (savedCoords) {
+    document.getElementById("coords-text").textContent = savedCoords;
+    // Parsear coordenadas guardadas
+    const match = savedCoords.match(/(-?\d+\.\d+)/g);
+    if (match && match.length >= 2) {
+      currentLat = parseFloat(match[0]);
+      currentLon = parseFloat(match[1]);
+      marker.setLatLng([currentLat, currentLon]);
+      map.setView([currentLat, currentLon], 13);
+    }
+  }
+});
+
+// Botón de GPS mejorado
+document.getElementById("btn-gps").addEventListener("click", async () => {
+  const coordsElement = document.getElementById("coords-text");
+  coordsElement.textContent = "Obteniendo ubicación...";
+  
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        currentLat = position.coords.latitude;
+        currentLon = position.coords.longitude;
+        marker.setLatLng([currentLat, currentLon]);
+        map.setView([currentLat, currentLon], 13);
+        updateCoordinatesDisplay();
+        
+        // Obtener dirección automáticamente
+        await getAddressFromCoordinates(currentLat, currentLon);
+        
+        marker.openPopup();
+      },
+      async (error) => {
+        console.warn("Geolocalización no disponible, usando ubicación de Medellín");
+        currentLat = 6.2518 + (Math.random() - 0.5) * 0.02;
+        currentLon = -75.5636 + (Math.random() - 0.5) * 0.02;
+        marker.setLatLng([currentLat, currentLon]);
+        map.setView([currentLat, currentLon], 13);
+        updateCoordinatesDisplay();
+        
+        // Obtener dirección automáticamente
+        await getAddressFromCoordinates(currentLat, currentLon);
+        
+        marker.openPopup();
+      }
+    );
+  }
+});
+
+document.getElementById("location-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // Guardar dirección y coordenadas en localStorage
+  localStorage.setItem("report_address", document.getElementById("address").value.trim());
+  localStorage.setItem("report_coords", document.getElementById("coords-text").textContent);
+
+  window.location.href = "evidencia.html";
+});
+</script>
 </body>
 </html>

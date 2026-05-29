@@ -1,185 +1,246 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clasificación</title>
+    <meta name="description" content="Paso 2: Clasifica el tipo de contaminación hídrica y define su urgencia.">
+    <title>Clasificación del Reporte - Observatorio del Agua</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="accessibility.css">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-2xl mx-auto">
+    <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
-        <div class="bg-gray-200 rounded-xl px-6 py-6 mb-7">
-            <div class="flex items-center justify-between">
-                
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                        1
-                    </div>
-                    <span class="text-blue-600 font-semibold">Descripción</span>
-                </div>
+    <div class="w-full max-w-2xl mx-auto p-4">
 
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+        <!-- Barra de progreso semántica -->
+        <nav aria-label="Progreso del reporte" class="bg-gray-200 rounded-xl px-6 py-6 mb-7 shadow-sm">
+            <ol class="flex items-center justify-between flex-wrap gap-y-2 md:flex-nowrap">
+                <li class="flex items-center gap-2">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold" aria-hidden="true">1</div>
+                    <span class="text-blue-700 font-semibold text-sm">Descripción</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-blue-600 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2" aria-current="step">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold" aria-hidden="true">2</div>
+                    <span class="text-blue-700 font-semibold text-sm">Clasificación</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-gray-300 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold" aria-hidden="true">3</div>
+                    <span class="text-gray-600 text-sm">Ubicación</span>
+                </li>
+                <li class="hidden md:block flex-1 h-1 bg-gray-300 mx-2" aria-hidden="true"></li>
+                <li class="flex items-center gap-2 text-gray-600">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold" aria-hidden="true">4</div>
+                    <span class="text-gray-600 text-sm">Evidencia</span>
+                </li>
+            </ol>
+        </nav>
 
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                        2
-                    </div>
-                    <span class="text-blue-600 font-semibold">Clasificación</span>
-                </div>
+        <!-- Formulario -->
+        <main id="main">
+            <form id="classification-form" class="bg-white p-8 rounded-2xl shadow-xl w-full" novalidate>
+    
+                <h1 class="text-3xl font-bold mb-2 text-center text-blue-900">¿Qué tipo de contaminación?</h1>
+                <p class="text-gray-600 text-center mb-6">
+                    Selecciona el tipo de contaminación que observaste que mejor lo describa.
+                </p>
 
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
-                        3
-                    </div>
-                    <span class="text-gray-600">Ubicación</span>
-                </div>
-
-                <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
-
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold">
-                        4
-                    </div>
-                    <span class="text-gray-600">Evidencia</span>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full">
-
-            <h1 class="text-3xl font-bold mb-2 text-center">¿Qué tipo de contaminación?</h1>
-            <p class="text-gray-500 text-center mb-6">
-                Selecciona el tipo de contaminación que observaste que mejor lo describa.
-            </p>
-
-            <div class="space-y-4">
-
-                <div>
-                    <h2 class="text-sm font-semibold mb-1">Tipo de contaminación *</h2>
-                    <div class="space-y-2">
-
-                        <label class="block cursor-pointer">
-                            <input type="checkbox" name="contaminacion" class="peer hidden">
-                            <div class="flex justify-between items-center border rounded-xl p-4
-                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
-                                <div>
-                                    <p class="font-medium">🗑️ Residuos sólidos</p>
-                                    <p class="text-sm text-gray-400">Basura, escombros</p>
+                <!-- Div para notificar errores generales del wizard -->
+                <div id="error-container" class="error-message text-center mb-4 font-semibold" role="alert" aria-live="polite"></div>
+    
+                <div class="space-y-6 text-left">
+    
+                    <fieldset>
+                        <legend class="block text-sm font-semibold text-gray-700 mb-3">Tipo de contaminación <span aria-label="requerido">*</span></legend>
+                        <div class="space-y-3">
+    
+                            <label class="block cursor-pointer">
+                                <input type="checkbox" name="contaminacion" value="Residuos sólidos" class="peer sr-only">
+                                <div class="flex justify-between items-center border rounded-xl p-4 transition
+                                            peer-checked:border-blue-500 peer-checked:bg-blue-50
+                                            peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                                    <div>
+                                        <p class="font-medium"><span aria-hidden="true">🗑️</span> Residuos sólidos</p>
+                                        <p class="text-sm text-gray-600">Basura, escombros</p>
+                                    </div>
+                                    <span class="hidden peer-checked:block text-blue-700 font-bold text-lg" aria-hidden="true">✔</span>
                                 </div>
-                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
-                            </div>
-                        </label>
-
-                        <label class="block cursor-pointer">
-                            <input type="checkbox" name="contaminacion" class="peer hidden">
-                            <div class="flex justify-between items-center border rounded-xl p-4
-                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
-                                <div>
-                                    <p class="font-medium">💧 Aguas negras</p>
-                                    <p class="text-sm text-gray-400">Aguas residuales</p>
+                            </label>
+    
+                            <label class="block cursor-pointer">
+                                <input type="checkbox" name="contaminacion" value="Aguas negras" class="peer sr-only">
+                                <div class="flex justify-between items-center border rounded-xl p-4 transition
+                                            peer-checked:border-blue-500 peer-checked:bg-blue-50
+                                            peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                                    <div>
+                                        <p class="font-medium"><span aria-hidden="true">💧</span> Aguas negras</p>
+                                        <p class="text-sm text-gray-600">Aguas residuales</p>
+                                    </div>
+                                    <span class="hidden peer-checked:block text-blue-700 font-bold text-lg" aria-hidden="true">✔</span>
                                 </div>
-                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
-                            </div>
-                        </label>
-
-                        <label class="block cursor-pointer">
-                            <input type="checkbox" name="contaminacion" class="peer hidden">
-                            <div class="flex justify-between items-center border rounded-xl p-4
-                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
-                                <div>
-                                    <p class="font-medium">🏭 Químico industrial</p>
-                                    <p class="text-sm text-gray-400">Sustancias tóxicas</p>
+                            </label>
+    
+                            <label class="block cursor-pointer">
+                                <input type="checkbox" name="contaminacion" value="Químico industrial" class="peer sr-only">
+                                <div class="flex justify-between items-center border rounded-xl p-4 transition
+                                            peer-checked:border-blue-500 peer-checked:bg-blue-50
+                                            peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                                    <div>
+                                        <p class="font-medium"><span aria-hidden="true">🏭</span> Químico industrial</p>
+                                        <p class="text-sm text-gray-600">Sustancias tóxicas</p>
+                                    </div>
+                                    <span class="hidden peer-checked:block text-blue-700 font-bold text-lg" aria-hidden="true">✔</span>
                                 </div>
-                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
-                            </div>
-                        </label>
-
-                        <label class="block cursor-pointer">
-                            <input type="checkbox" name="contaminacion" class="peer hidden">
-                            <div class="flex justify-between items-center border rounded-xl p-4
-                                        peer-checked:border-blue-500 peer-checked:bg-blue-50">
-                                <div>
-                                    <p class="font-medium">⛰️ Erosión</p>
-                                    <p class="text-sm text-gray-400">Deslizamientos</p>
+                            </label>
+    
+                            <label class="block cursor-pointer">
+                                <input type="checkbox" name="contaminacion" value="Erosión" class="peer sr-only">
+                                <div class="flex justify-between items-center border rounded-xl p-4 transition
+                                            peer-checked:border-blue-500 peer-checked:bg-blue-50
+                                            peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2">
+                                    <div>
+                                        <p class="font-medium"><span aria-hidden="true">⛰️</span> Erosión</p>
+                                        <p class="text-sm text-gray-600">Deslizamientos</p>
+                                    </div>
+                                    <span class="hidden peer-checked:block text-blue-700 font-bold text-lg" aria-hidden="true">✔</span>
                                 </div>
-                                <span class="hidden peer-checked:block text-blue-600 font-bold text-lg">✔</span>
-                            </div>
-                        </label>
-
-                    </div>
+                            </label>
+    
+                        </div>
+                    </fieldset>
+    
+                    <fieldset>
+                        <legend id="urgencia-title" class="block text-sm font-semibold text-gray-700 mb-3">Nivel de urgencia <span aria-label="requerido">*</span></legend>
+    
+                        <div class="flex gap-2">
+                            <label class="cursor-pointer flex-1">
+                                <input type="radio" name="urgencia" value="1" class="peer sr-only" required aria-required="true">
+                                <div class="w-full h-12 flex items-center justify-center rounded text-white font-bold transition
+                                            bg-green-700 hover:bg-green-700
+                                            peer-checked:ring-4 peer-checked:ring-blue-800 peer-checked:ring-offset-1
+                                            peer-focus-visible:ring-4 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-1">
+                                    1
+                                </div>
+                            </label>
+                            <label class="cursor-pointer flex-1">
+                                <input type="radio" name="urgencia" value="2" class="peer sr-only">
+                                <div class="w-full h-12 flex items-center justify-center rounded text-white font-bold transition
+                                            bg-yellow-700 hover:bg-yellow-600
+                                            peer-checked:ring-4 peer-checked:ring-blue-800 peer-checked:ring-offset-1
+                                            peer-focus-visible:ring-4 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-1">
+                                    2
+                                </div>
+                            </label>
+                            <label class="cursor-pointer flex-1">
+                                <input type="radio" name="urgencia" value="3" class="peer sr-only">
+                                <div class="w-full h-12 flex items-center justify-center rounded text-white font-bold transition
+                                            bg-orange-700 hover:bg-orange-600
+                                            peer-checked:ring-4 peer-checked:ring-blue-800 peer-checked:ring-offset-1
+                                            peer-focus-visible:ring-4 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-1">
+                                    3
+                                </div>
+                            </label>
+                            <label class="cursor-pointer flex-1">
+                                <input type="radio" name="urgencia" value="4" class="peer sr-only">
+                                <div class="w-full h-12 flex items-center justify-center rounded text-white font-bold transition
+                                            bg-red-700 hover:bg-red-600
+                                            peer-checked:ring-4 peer-checked:ring-blue-800 peer-checked:ring-offset-1
+                                            peer-focus-visible:ring-4 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-1">
+                                    4
+                                </div>
+                            </label>
+                            <label class="cursor-pointer flex-1">
+                                <input type="radio" name="urgencia" value="5" class="peer sr-only">
+                                <div class="w-full h-12 flex items-center justify-center rounded text-white font-bold transition
+                                            bg-red-800 hover:bg-red-900
+                                            peer-checked:ring-4 peer-checked:ring-blue-800 peer-checked:ring-offset-1
+                                            peer-focus-visible:ring-4 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-1">
+                                    5
+                                </div>
+                            </label>
+                        </div>
+    
+                        <div class="flex justify-between text-xs text-gray-600 mt-2" aria-hidden="true">
+                            <span>Leve (1)</span>
+                            <span>Crítico (5)</span>
+                        </div>
+                    </fieldset>
+    
                 </div>
-
-                <div>
-                    <h2 class="text-sm font-semibold mb-1">Nivel de urgencia *</h2>
-
-                    <div class="flex gap-2">
-                        <label class="cursor-pointer flex-1">
-                            <input type="radio" name="urgencia" class="peer hidden">
-                            <div class="w-full h-10 flex items-center justify-center rounded
-                                        bg-green-500 text-white font-bold
-                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
-                                1
-                            </div>
-                        </label>
-                        <label class="cursor-pointer flex-1">
-                            <input type="radio" name="urgencia" class="peer hidden">
-                            <div class="w-full h-10 flex items-center justify-center rounded
-                                        bg-yellow-400 text-white font-bold
-                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
-                                2
-                            </div>
-                        </label>
-                        <label class="cursor-pointer flex-1">
-                            <input type="radio" name="urgencia" class="peer hidden">
-                            <div class="w-full h-10 flex items-center justify-center rounded
-                                        bg-orange-500 text-white font-bold
-                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
-                                3
-                            </div>
-                        </label>
-                        <label class="cursor-pointer flex-1">
-                            <input type="radio" name="urgencia" class="peer hidden">
-                            <div class="w-full h-10 flex items-center justify-center rounded
-                                        bg-red-500 text-white font-bold
-                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
-                                4
-                            </div>
-                        </label>
-                        <label class="cursor-pointer flex-1">
-                            <input type="radio" name="urgencia" class="peer hidden">
-                            <div class="w-full h-10 flex items-center justify-center rounded
-                                        bg-red-700 text-white font-bold
-                                        peer-checked:ring-2 peer-checked:ring-black peer-checked:ring-offset-1">
-                                5
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>Leve</span>
-                        <span>Crítico</span>
-                    </div>
+    
+                <div class="flex justify-between mt-6 gap-4">
+                    <a href="descripcion.html" class="w-1/2 text-center bg-gray-600 hover:bg-gray-600 text-white font-bold py-2 rounded-lg flex items-center justify-center min-h-[44px] hover:no-underline transition">
+                        Anterior
+                    </a>
+                    <button type="submit" class="w-1/2 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg flex items-center justify-center min-h-[44px] transition">
+                        Siguiente
+                    </button>
                 </div>
-
-            </div>
-
-            <div class="flex justify-between mt-6 gap-4">
-                <a href="descripcion.html" class="w-1/2 text-center bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 rounded-lg">
-                    Anterior
-                </a>
-                <a href="ubicacion.html" class="w-1/2 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg">
-                    Siguientesssss
-                </a>
-            </div>
-
-        </div>
-
+    
+            </form>
+        </main>
+    
     </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Cargar valores existentes de localStorage
+  const savedContam = JSON.parse(localStorage.getItem("report_contamination") || "[]");
+  const checkboxes = document.querySelectorAll('input[name="contaminacion"]');
+  checkboxes.forEach(cb => {
+    if (savedContam.includes(cb.value)) {
+      cb.checked = true;
+    }
+  });
+
+  const savedUrgency = localStorage.getItem("report_urgency");
+  if (savedUrgency) {
+    const radio = document.querySelector(`input[name="urgencia"][value="${savedUrgency}"]`);
+    if (radio) {
+      radio.checked = true;
+    }
+  }
+});
+
+function validateForm() {
+  const checkboxes = document.querySelectorAll('input[name="contaminacion"]:checked');
+  const urgency = document.querySelector('input[name="urgencia"]:checked');
+  let isValid = true;
+
+  document.getElementById("error-container").textContent = "";
+
+  if (checkboxes.length === 0) {
+    document.getElementById("error-container").textContent = "Debe seleccionar al menos un tipo de contaminación.";
+    isValid = false;
+  } else if (!urgency) {
+    document.getElementById("error-container").textContent = "Debe seleccionar un nivel de urgencia.";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+document.getElementById("classification-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) {
+    return;
+  }
+
+  const selectedContam = [];
+  document.querySelectorAll('input[name="contaminacion"]:checked').forEach(cb => {
+    selectedContam.push(cb.value);
+  });
+  const selectedUrgency = document.querySelector('input[name="urgencia"]:checked').value;
+
+  localStorage.setItem("report_contamination", JSON.stringify(selectedContam));
+  localStorage.setItem("report_urgency", selectedUrgency);
+
+  window.location.href = "ubicacion.html";
+});
+</script>
 </body>
 </html>

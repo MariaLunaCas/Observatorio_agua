@@ -2,19 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Verificación de correo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Verifica tu correo electrónico para activar tu cuenta en el Observatorio del Agua.">
+  <title>Verificación de Correo - Observatorio del Agua</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
 </head>
 
 <body class="bg-gray-200 flex items-center justify-center min-h-screen">
 
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+
   <!-- CARD -->
-  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+  <main id="main" class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
 
     <!-- HEADER -->
     <div class="bg-gradient-to-r from-blue-800 to-cyan-500 text-white text-center py-6">
-      <div class="text-3xl mb-2">💧</div>
-      <h1 class="font-semibold">Observatorio del agua</h1>
+      <div class="text-3xl mb-2" aria-hidden="true">💧</div>
+      <h1 class="font-semibold text-lg">Observatorio del agua</h1>
     </div>
 
     <!-- CONTENIDO -->
@@ -22,7 +27,7 @@
 
       <!-- ICONO -->
       <div class="flex justify-center mb-4">
-        <div class="bg-gray-200 p-4 rounded-full text-xl">
+        <div class="bg-gray-200 p-4 rounded-full text-xl" aria-hidden="true">
           ✉️
         </div>
       </div>
@@ -30,33 +35,34 @@
       <!-- TEXTO -->
       <h2 class="text-xl font-bold mb-2">¡Verifica tu correo!</h2>
 
-      <p class="text-gray-500 text-sm mb-6">
+      <p class="text-gray-600 text-sm mb-6">
         Hemos enviado un enlace de verificación a <br>
-        <span class="font-medium">usuario@email.com</span>. <br>
+        <span class="font-medium text-gray-700">usuario@email.com</span>. <br>
         El enlace expira en 1 hora.
       </p>
 
       <!-- BOTÓN -->
-      <a href="home_loggeado.html">
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg flex items-center justify-center gap-2">
+      <a href="home_loggeado.html" class="block w-full">
+        <button type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg flex items-center justify-center gap-2 font-medium transition">
           ✔ Verificar mi email
         </button>
       </a>
 
       <!-- REENVIAR -->
-      <p class="text-xs text-gray-500 mt-4">
+      <p class="text-xs text-gray-600 mt-4">
         ¿No recibiste el correo?
-        <a href="#" class="text-blue-600">Reenviar</a>
+        <a href="#" class="text-blue-700 hover:underline">Reenviar</a>
       </p>
 
     </div>
 
     <!-- FOOTER -->
-    <div class="bg-gray-100 text-center text-xs text-gray-400 py-3">
-      Si no solicitaste esto, ignora este mensaje. Observatorio Ciudadano del Agua
-    </div>
+    <footer class="bg-gray-100 text-center text-xs text-gray-600 py-3 mt-0 border-t border-gray-100">
+      <p>Si no solicitaste esto, ignora este mensaje.</p>
+      <p class="mt-1">Observatorio Ciudadano del Agua</p>
+    </footer>
 
-  </div>
+  </main>
 
 </body>
 </html>

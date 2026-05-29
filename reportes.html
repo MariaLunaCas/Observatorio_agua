@@ -2,143 +2,147 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Reportes por validar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panel administrativo para revisar, filtrar, validar y eliminar reportes ciudadanos.">
+  <title>Gestión de Reportes - Observatorio del Agua</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
 </head>
+<body class="min-h-screen bg-gray-50 flex flex-col">
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
-<body class="h-screen bg-gray-50 flex flex-col">
+  <header>
+    <nav class="bg-white shadow flex justify-between items-center px-7 py-4" aria-label="Navegación de administración">
+      <a href="home_admin.html" class="flex items-center space-x-2" aria-label="Observatorio del Agua, inicio panel de administración">
+        <div class="bg-blue-700 p-2 rounded-lg text-white" aria-hidden="true">💧</div>
+        <div>
+          <span class="font-bold text-sm block">Observatorio</span>
+          <span class="text-xs text-gray-600 block">panel administrativo</span>
+        </div>
+      </a>
+      <ul class="flex space-x-6 text-sm">
+        <li><a href="home_admin.html" class="text-gray-600 hover:text-blue-700 font-semibold">Dashboard</a></li>
+        <li><a href="reportes.html" class="text-blue-700 font-semibold" aria-current="page">Reportes</a></li>
+        <li><a href="admin-users.html" class="text-gray-600 hover:text-blue-700 font-semibold">Usuarios</a></li>
+        <li><a href="admin-alertas.html" class="text-gray-600 hover:text-blue-700 font-semibold">Alertas</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- NAVBAR -->
-  <nav class="bg-white shadow flex justify-between items-center px-7 py-4">
-  
-  <!-- Logo -->
-  <div class="flex items-center space-x-2">
-    <div class="bg-blue-700 p-2 rounded-lg text-white">💧</div>
-    <div>
-      <h1 class="font-bold text-sm">Observatorio</h1>
-      <p class="text-xs text-gray-500">ciudadano de calidad del agua</p>
+  <main id="main" class="flex-1 px-8 md:px-16 py-10 overflow-y-auto">
+    <div class="flex flex-col gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Gestión de reportes</h1>
+        <p class="text-sm text-gray-600">Filtra, revisa, valida o elimina reportes inapropiados.</p>
+      </div>
+
+      <form id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <div>
+          <label for="filter-type" class="text-sm font-semibold text-gray-700">Tipo</label>
+          <input id="filter-type" class="w-full border rounded-lg px-3 py-2" placeholder="Químico, residuos...">
+        </div>
+        <div>
+          <label for="filter-location" class="text-sm font-semibold text-gray-700">Ubicación</label>
+          <input id="filter-location" class="w-full border rounded-lg px-3 py-2" placeholder="Medellín...">
+        </div>
+        <div>
+          <label for="filter-status" class="text-sm font-semibold text-gray-700">Estado</label>
+          <select id="filter-status" class="w-full border rounded-lg px-3 py-2">
+            <option value="">Todos</option>
+            <option value="pending">Pendiente</option>
+            <option value="validated">Validado</option>
+            <option value="rejected">Rechazado</option>
+          </select>
+        </div>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 font-semibold min-h-[44px]">Aplicar filtros</button>
+      </form>
     </div>
-  </div>
 
-  <!-- Menú -->
-  <div class="space-x-6 text-sm">
+    <p class="text-sm text-gray-600 mb-4" id="count-status" role="status" aria-live="polite">Cargando reportes...</p>
+    <div id="reports-list" class="space-y-4 max-w-4xl"></div>
+  </main>
 
-    <a href="home_admin.html" class="text-gray-600 font-semibold">Inicio</a>
-    <a href="validar-reporte-1.html" class="text-blue-600 hover:text-blue-600 font-semibold">Validar reporte</a>
-  </div>
+  <script>
+    const API_URL = "http://localhost:5000/api";
+    const fallbackReports = [
+      { _id: "demo-1", title: "Derrame químico - Río Aburrá", contaminationType: "Químico", address: "Bello, Antioquia", urgency: 5, status: "pending" },
+      { _id: "demo-2", title: "Basuras en quebrada", contaminationType: "Residuos", address: "Medellín", urgency: 3, status: "pending" }
+    ];
 
-  <!-- Botones -->
-  <div class="flex items-center gap-3">
-    <a href="perfil.html">
-      <div class="w-9 h-9 rounded-full bg-blue-800 flex items-center justify-center text-white text-xs font-bold">MG</div>
-    </a>
-  </div>
+    async function loadReports() {
+      const params = new URLSearchParams();
+      const type = document.getElementById("filter-type").value.trim();
+      const location = document.getElementById("filter-location").value.trim();
+      const status = document.getElementById("filter-status").value;
+      if (type) params.set("contaminationType", type);
+      if (location) params.set("location", location);
+      if (status) params.set("status", status);
 
-</nav>
+      try {
+        const response = await fetch(`${API_URL}/reports?${params.toString()}`);
+        if (!response.ok) throw new Error("No se pudieron cargar reportes.");
+        const reports = await response.json();
+        renderReports(reports.length ? reports : fallbackReports);
+      } catch {
+        renderReports(fallbackReports);
+      }
+    }
 
-  <!-- CONTENIDO -->
-  <div class="flex-1 px-16 py-10 overflow-y-auto">
+    function renderReports(reports) {
+      const list = document.getElementById("reports-list");
+      list.innerHTML = "";
+      document.getElementById("count-status").textContent = `${reports.length} reporte(s) encontrados`;
 
-    <!-- Título y filtros -->
-    <div class="flex items-center justify-between mb-2">
-      <h1 class="text-2xl font-bold text-gray-800">Reportes por validar</h1>
-      <div class="flex gap-2">
-        <button class="border border-gray-300 text-gray-600 text-xs px-4 py-1.5 rounded-full hover:bg-gray-100 font-medium">Urgencia ≥ 3</button>
-        <button class="border border-gray-300 text-gray-600 text-xs px-4 py-1.5 rounded-full hover:bg-gray-100 font-medium">Todos</button>
-      </div>
-    </div>
-    <p class="text-sm text-gray-400 mb-8">Ordenados por carácter de urgencia · 18 pendientes</p>
-
-    <!-- Lista de reportes -->
-    <div class="space-y-4 max-w-3xl">
-
-      <!-- Reporte 1 -->
-      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-red-400">
-        <div class="flex items-center gap-5">
-          <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl shadow-sm">☣️</div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">5</span>
-              <p class="text-sm font-semibold text-gray-800">Derrame de sustancias químicas — Río Aburrá</p>
+      reports
+        .sort((a, b) => (b.urgency || 1) - (a.urgency || 1))
+        .forEach((report) => {
+          const card = document.createElement("article");
+          card.className = "bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4";
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="bg-blue-700 text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">${report.urgency || 1}</span>
+                <h2 class="text-base font-bold text-gray-800">${report.title || "Reporte sin título"}</h2>
+              </div>
+              <p class="text-sm text-gray-600">${report.contaminationType || "Sin tipo"} · ${report.address || "Sin ubicación"} · ${report.status || "pending"}</p>
             </div>
-            <p class="text-xs text-gray-400">Hace 4 horas · María González · 5 fotos</p>
-          </div>
-        </div>
-        <a href="validar-reporte-5.html">
-          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
-        </a>
-      </div>
-
-      <!-- Reporte 2 -->
-      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-orange-400">
-        <div class="flex items-center gap-5">
-          <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl shadow-sm">🏭</div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="bg-orange-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">4</span>
-              <p class="text-sm font-semibold text-gray-800">Vertimiento industrial en quebrada La Perla</p>
+            <div class="flex flex-wrap gap-2">
+              <a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold hover:no-underline" href="reporte-detalle.html?id=${report._id}">Detalle</a>
+              <button class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold" data-validate="${report._id}">Validar</button>
+              <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg font-semibold" data-delete="${report._id}">Eliminar</button>
             </div>
-            <p class="text-xs text-gray-400">Hace 2 días · Carlos R. · 3 fotos</p>
-          </div>
-        </div>
-        <a href="validar-reporte-4.html">
-          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
-        </a>
-      </div>
+          `;
+          list.appendChild(card);
+        });
 
-      <!-- Reporte 3 -->
-      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-yellow-400">
-        <div class="flex items-center gap-5">
-          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl shadow-sm">🌿</div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="bg-yellow-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">3</span>
-              <p class="text-sm font-semibold text-gray-800">Aguas residuales sin tratar — Vereda El Retiro</p>
-            </div>
-            <p class="text-xs text-gray-400">Hace 3 días · Ana S. · 2 fotos</p>
-          </div>
-        </div>
-        <a href="validar-reporte-3.html">
-          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
-        </a>
-      </div>
+      list.querySelectorAll("[data-validate]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          if (button.dataset.validate.startsWith("demo")) return;
+          await fetch(`${API_URL}/reports/${button.dataset.validate}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "validated" })
+          });
+          loadReports();
+        });
+      });
 
-      <!-- Reporte 4 -->
-      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-yellow-300">
-        <div class="flex items-center gap-5">
-          <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl shadow-sm">🐟</div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="bg-yellow-400 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">2</span>
-              <p class="text-sm font-semibold text-gray-800">Mortandad de peces — Embalse El Peñol</p>
-            </div>
-            <p class="text-xs text-gray-400">Hace 5 días · Luis M. · 6 fotos</p>
-          </div>
-        </div>
-        <a href="validar-reporte-2.html">
-          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
-        </a>
-      </div>
+      list.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          if (!confirm("¿Eliminar este reporte?")) return;
+          if (button.dataset.delete.startsWith("demo")) return;
+          await fetch(`${API_URL}/reports/${button.dataset.delete}`, { method: "DELETE" });
+          loadReports();
+        });
+      });
+    }
 
-      <!-- Reporte 5 -->
-      <div class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition border-l-4 border-blue-300">
-        <div class="flex items-center gap-5">
-          <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl shadow-sm">🪣</div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="bg-blue-400 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">1</span>
-              <p class="text-sm font-semibold text-gray-800">Basuras en orilla — Quebrada La Iguaná</p>
-            </div>
-            <p class="text-xs text-gray-400">Hace 1 semana · Pedro V. · 4 fotos</p>
-          </div>
-        </div>
-        <a href="validar-reporte-1.html">
-          <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-xl font-semibold transition">Revisar →</button>
-        </a>
-      </div>
+    document.getElementById("filter-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      loadReports();
+    });
 
-    </div>
-  </div>
-
+    loadReports();
+  </script>
 </body>
 </html>

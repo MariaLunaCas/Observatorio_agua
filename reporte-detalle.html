@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Detalle de reporte ciudadano y comentarios comunitarios.">
+  <title>Detalle del Reporte - Observatorio del Agua</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="accessibility.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+
+  <header class="bg-white shadow px-8 py-4 flex justify-between items-center">
+    <a href="mapa.html" class="text-blue-700 font-semibold">← Volver al mapa</a>
+    <a href="perfil.html" class="text-gray-700 font-semibold">Mi perfil</a>
+  </header>
+
+  <main id="main" class="max-w-5xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
+    <section class="bg-white rounded-xl shadow p-6" aria-labelledby="report-title">
+      <div id="report-status" role="status" aria-live="polite" class="text-sm text-gray-600 mb-4">Cargando reporte...</div>
+      <h1 id="report-title" class="text-2xl font-bold text-gray-900 mb-2">Reporte</h1>
+      <p id="report-meta" class="text-sm text-gray-600 mb-4"></p>
+      <p id="report-description" class="text-gray-700 leading-relaxed mb-6"></p>
+      <div id="photo-gallery" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+    </section>
+
+    <aside class="bg-white rounded-xl shadow p-6" aria-labelledby="comments-title">
+      <h2 id="comments-title" class="text-xl font-bold text-gray-900 mb-4">Comentarios</h2>
+      <form id="comment-form" class="space-y-3 mb-5">
+        <div>
+          <label for="comment-text" class="text-sm font-semibold text-gray-700">Nuevo comentario</label>
+          <textarea id="comment-text" class="w-full border rounded-lg p-3" rows="4" required maxlength="500"></textarea>
+        </div>
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 font-semibold min-h-[44px]">
+          Publicar comentario
+        </button>
+      </form>
+      <div id="comments-list" class="space-y-3" role="status" aria-live="polite">Cargando comentarios...</div>
+    </aside>
+  </main>
+
+  <script>
+    const API_URL = "http://localhost:5000/api";
+    const params = new URLSearchParams(window.location.search);
+    const reportId = params.get("id");
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = currentUser.role === "admin";
+
+    async function loadReport() {
+      if (!reportId || reportId.startsWith("demo")) {
+        renderReport({
+          _id: reportId || "demo",
+          title: "Reporte de ejemplo",
+          description: "Detalle de ejemplo para reportes estáticos del mapa.",
+          contaminationType: "Residuos sólidos",
+          urgency: 3,
+          status: "pending",
+          address: "Medellín, Antioquia",
+          imageUrls: []
+        });
+        loadComments();
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/reports/${reportId}`);
+        if (!response.ok) throw new Error("No se pudo cargar el reporte.");
+        renderReport(await response.json());
+      } catch (error) {
+        document.getElementById("report-status").textContent = error.message;
+      }
+      loadComments();
+    }
+
+    function renderReport(report) {
+      document.getElementById("report-status").textContent = `Estado: ${report.status || "pending"}`;
+      document.getElementById("report-title").textContent = report.title || "Reporte sin título";
+      document.getElementById("report-meta").textContent = `${report.contaminationType || "Sin clasificar"} · Urgencia ${report.urgency || 1} · ${report.address || "Sin ubicación textual"}`;
+      document.getElementById("report-description").textContent = report.description || "Sin descripción.";
+
+      const gallery = document.getElementById("photo-gallery");
+      gallery.innerHTML = "";
+      const photos = report.imageUrls?.length ? report.imageUrls : (report.imageUrl ? [report.imageUrl] : []);
+      if (!photos.length) {
+        gallery.innerHTML = `<p class="text-sm text-gray-600">Este reporte no tiene fotografías almacenadas.</p>`;
+        return;
+      }
+      photos.forEach((url, index) => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = `Evidencia fotográfica ${index + 1} del reporte`;
+        img.className = "rounded-lg border border-gray-200 w-full h-52 object-cover";
+        gallery.appendChild(img);
+      });
+    }
+
+    async function loadComments() {
+      const list = document.getElementById("comments-list");
+      if (!reportId || reportId.startsWith("demo")) {
+        list.textContent = "Los reportes de ejemplo no tienen comentarios guardados.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/comments?reportId=${encodeURIComponent(reportId)}`);
+        if (!response.ok) throw new Error("No se pudieron cargar comentarios.");
+        const comments = await response.json();
+        renderComments(comments);
+      } catch (error) {
+        list.textContent = error.message;
+      }
+    }
+
+    function renderComments(comments) {
+      const list = document.getElementById("comments-list");
+      list.innerHTML = "";
+      const visible = isAdmin ? comments : comments.filter((comment) => comment.status !== "hidden");
+      if (!visible.length) {
+        list.textContent = "Aún no hay comentarios.";
+        return;
+      }
+      visible.forEach((comment) => {
+        const article = document.createElement("article");
+        article.className = "border border-gray-200 rounded-lg p-3";
+        article.innerHTML = `
+          <p class="text-sm text-gray-800">${comment.text}</p>
+          <p class="text-xs text-gray-600 mt-2">${comment.authorEmail} · ${comment.status}</p>
+          ${isAdmin ? `<button class="mt-2 text-red-700 font-semibold" data-delete="${comment._id}">Eliminar comentario</button>` : ""}
+        `;
+        list.appendChild(article);
+      });
+
+      list.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          await fetch(`${API_URL}/comments/${button.dataset.delete}`, { method: "DELETE" });
+          loadComments();
+        });
+      });
+    }
+
+    document.getElementById("comment-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!reportId || reportId.startsWith("demo")) return;
+
+      const text = document.getElementById("comment-text").value.trim();
+      if (!text) return;
+
+      await fetch(`${API_URL}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reportId,
+          text,
+          authorEmail: currentUser.email || "anonimo@local"
+        })
+      });
+      document.getElementById("comment-text").value = "";
+      loadComments();
+    });
+
+    loadReport();
+  </script>
+</body>
+</html>

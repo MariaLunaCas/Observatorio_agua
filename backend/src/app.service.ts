@@ -11,7 +11,8 @@ export class AppService implements OnModuleInit {
   }
 
   onModuleInit() {
-    const isConnected = this.connection.readyState === ConnectionStates.connected;
+    const isConnected =
+      this.connection.readyState === ConnectionStates.connected;
     console.log(
       `MongoDB connection status: ${isConnected ? 'Connected' : 'Not Connected'}`,
     );
